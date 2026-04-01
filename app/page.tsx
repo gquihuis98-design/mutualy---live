@@ -1,20 +1,44 @@
 export default function Home() {
   return (
-    <main className="min-h-screen bg-neutral-950 text-white flex items-center justify-center px-6">
-      <div className="text-center max-w-xl">
-        <h1 className="text-5xl font-semibold mb-6">
-          Mutualy 🚀
-        </h1>
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#0a0f1d",
+        color: "white",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div style={{ textAlign: "center", maxWidth: "700px" }}>
+        <h1 style={{ fontSize: "56px", marginBottom: "24px" }}>Mutualy 🚀</h1>
 
-        <p className="text-lg text-white/70 mb-8">
+        <p style={{ fontSize: "20px", color: "rgba(255,255,255,0.75)", marginBottom: "32px" }}>
           B2B matchmaking — connecting buyers and vendors when there is real fit.
         </p>
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <div
+          style={{
+            display: "flex",
+            gap: "16px",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
           <a
             href="https://form.typeform.com/to/oLtDvuLX"
             target="_blank"
-            className="rounded-full bg-white px-6 py-3 text-black font-semibold"
+            rel="noreferrer"
+            style={{
+              background: "white",
+              color: "black",
+              padding: "14px 24px",
+              borderRadius: "999px",
+              textDecoration: "none",
+              fontWeight: 600,
+            }}
           >
             Apply as Buyer
           </a>
@@ -22,7 +46,15 @@ export default function Home() {
           <a
             href="https://form.typeform.com/to/oYc6xZr0"
             target="_blank"
-            className="rounded-full border border-white/20 px-6 py-3"
+            rel="noreferrer"
+            style={{
+              border: "1px solid rgba(255,255,255,0.2)",
+              color: "white",
+              padding: "14px 24px",
+              borderRadius: "999px",
+              textDecoration: "none",
+              fontWeight: 600,
+            }}
           >
             Apply as Vendor
           </a>
