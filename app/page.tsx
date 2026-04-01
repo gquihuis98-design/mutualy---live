@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 
 const FAQS = [
@@ -47,7 +49,11 @@ export default function Home() {
       } as React.CSSProperties,
       tripleGrid: {
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr 1fr" : "repeat(3, 1fr)",
+        gridTemplateColumns: isMobile
+          ? "1fr"
+          : isTablet
+            ? "1fr 1fr"
+            : "repeat(3, 1fr)",
         gap: 16,
       } as React.CSSProperties,
       dualGrid: {
@@ -61,12 +67,6 @@ export default function Home() {
         gap: 22,
         marginTop: 24,
       } as React.CSSProperties,
-      formGrid: (reverse?: boolean) => ({
-        display: "grid",
-        gridTemplateColumns: isMobile || isTablet ? "1fr" : reverse ? "1.1fr 0.9fr" : "0.9fr 1.1fr",
-        gap: 22,
-        alignItems: "stretch",
-      }),
       ctaRow: {
         display: "flex",
         gap: 12,
@@ -109,7 +109,14 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <a href="#waitlist" style={{ ...buttonGhost, width: isMobile ? "100%" : "auto", textAlign: "center" }}>
+          <a
+            href="#waitlist"
+            style={{
+              ...buttonGhost,
+              width: isMobile ? "100%" : "auto",
+              textAlign: "center",
+            }}
+          >
             Join the waitlist
           </a>
         </header>
@@ -149,7 +156,9 @@ export default function Home() {
                 marginBottom: 28,
               }}
             >
-              Mutualy connects buyers and sellers when there is actual fit on both sides — based on tech stack, priorities, timing, budget, and intent.
+              Mutualy connects buyers and sellers when there is actual fit on
+              both sides — based on tech stack, priorities, timing, budget, and
+              intent.
             </p>
 
             <div style={{ ...layout.ctaRow, marginBottom: 32 }}>
@@ -232,7 +241,12 @@ export default function Home() {
           </div>
         </section>
 
-        <Section id="pricing" title="Premium pricing" subtitle="A premium marketplace for serious vendor access." sectionTitleSize={sectionTitleSize}>
+        <Section
+          id="pricing"
+          title="Premium pricing"
+          subtitle="A premium marketplace for serious vendor access."
+          sectionTitleSize={sectionTitleSize}
+        >
           <p style={sectionText}>
             Mutualy is free for buyers. Vendors pay for premium access to
             high-fit buyer demand, stronger matching signals, and curated
@@ -241,7 +255,15 @@ export default function Home() {
 
           <div style={layout.pricingGrid}>
             <div style={greenPanel}>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexDirection: isMobile ? "column" : "row" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  alignItems: "flex-start",
+                  flexDirection: isMobile ? "column" : "row",
+                }}
+              >
                 <div>
                   <div style={{ color: "#a7f3d0", fontWeight: 700 }}>
                     Buyer access
@@ -261,7 +283,10 @@ export default function Home() {
                 <div>• Get surfaced to relevant vendors when fit is mutual</div>
                 <div>• Submit reviews to help improve trust and match quality</div>
               </div>
-              <a href="#buyers" style={{ ...buttonPrimary, marginTop: 20, display: "inline-block" }}>
+              <a
+                href="#buyers"
+                style={{ ...buttonPrimary, marginTop: 20, display: "inline-block" }}
+              >
                 Apply as a Buyer
               </a>
             </div>
@@ -320,7 +345,14 @@ export default function Home() {
                 </p>
               </div>
               <div style={cyanPanel}>
-                <div style={{ fontSize: 12, textTransform: "uppercase", color: "#cffafe", letterSpacing: 1.3 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    textTransform: "uppercase",
+                    color: "#cffafe",
+                    letterSpacing: 1.3,
+                  }}
+                >
                   Curated intro fee
                 </div>
                 <div style={{ fontSize: 36, fontWeight: 700, marginTop: 8 }}>
@@ -334,7 +366,12 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="faq" title="FAQ" subtitle="Everything you need to know" sectionTitleSize={sectionTitleSize}>
+        <Section
+          id="faq"
+          title="FAQ"
+          subtitle="Everything you need to know"
+          sectionTitleSize={sectionTitleSize}
+        >
           <div style={{ ...layout.dualGrid, marginTop: 20 }}>
             {FAQS.map((item) => (
               <FaqCard key={item.q} q={item.q} a={item.a} />
@@ -375,7 +412,16 @@ export default function Home() {
             <p style={{ ...mutedText, margin: "10px auto 0", maxWidth: 640 }}>
               Join early access or apply today.
             </p>
-            <div style={{ ...layout.ctaRow, justifyContent: "center", marginTop: 20 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 12,
+                flexWrap: "wrap",
+                flexDirection: isMobile ? "column" : "row",
+                marginTop: 20,
+              }}
+            >
               <a href="#buyers" style={{ ...buttonPrimary, textAlign: "center" }}>
                 Apply as a Buyer
               </a>
@@ -386,7 +432,12 @@ export default function Home() {
           </div>
         </section>
 
-        <Section id="how-it-works" title="How it works" subtitle="" sectionTitleSize={sectionTitleSize}>
+        <Section
+          id="how-it-works"
+          title="How it works"
+          subtitle=""
+          sectionTitleSize={sectionTitleSize}
+        >
           <div style={{ ...layout.tripleGrid, marginTop: 20 }}>
             <StepCard
               step="01"
@@ -419,7 +470,7 @@ export default function Home() {
           ]}
           cta="Apply as a Buyer"
           href="https://form.typeform.com/to/oLtDvuLX"
-          visual={<BuyerVisual isMobile={isMobile} isTablet={isTablet} />}
+          visual={<BuyerVisual isMobile={isMobile} />}
           reverse={false}
           isMobile={isMobile}
           isTablet={isTablet}
@@ -534,7 +585,9 @@ function Section({
       <div style={panel}>
         <div style={pill}>{title}</div>
         {subtitle ? (
-          <h2 style={{ fontSize: sectionTitleSize, margin: "18px 0 0", fontWeight: 700 }}>
+          <h2
+            style={{ fontSize: sectionTitleSize, margin: "18px 0 0", fontWeight: 700 }}
+          >
             {subtitle}
           </h2>
         ) : null}
@@ -575,7 +628,8 @@ function FormSection({
 }) {
   const gridStyle: React.CSSProperties = {
     display: "grid",
-    gridTemplateColumns: isMobile || isTablet ? "1fr" : reverse ? "1.1fr 0.9fr" : "0.9fr 1.1fr",
+    gridTemplateColumns:
+      isMobile || isTablet ? "1fr" : reverse ? "1.1fr 0.9fr" : "0.9fr 1.1fr",
     gap: 22,
     alignItems: "stretch",
   };
@@ -626,7 +680,15 @@ function FormSection({
   );
 }
 
-function FormPanel({ cta, href, isMobile }: { cta: string; href: string; isMobile: boolean }) {
+function FormPanel({
+  cta,
+  href,
+  isMobile,
+}: {
+  cta: string;
+  href: string;
+  isMobile: boolean;
+}) {
   return (
     <div
       style={{
@@ -638,7 +700,9 @@ function FormPanel({ cta, href, isMobile }: { cta: string; href: string; isMobil
       }}
     >
       <div style={iconWrap}>↗</div>
-      <div style={{ fontSize: isMobile ? 24 : 30, fontWeight: 700 }}>Open the form in a new tab</div>
+      <div style={{ fontSize: isMobile ? 24 : 30, fontWeight: 700 }}>
+        Open the form in a new tab
+      </div>
       <p style={{ ...mutedText, maxWidth: 480, margin: "12px auto 0" }}>
         The in-app preview can block embedded Typeforms and trigger a network
         access error. Opening the form directly avoids that issue and works
@@ -648,7 +712,14 @@ function FormPanel({ cta, href, isMobile }: { cta: string; href: string; isMobil
         href={href}
         target="_blank"
         rel="noreferrer"
-        style={{ ...buttonPrimary, display: "inline-block", marginTop: 22, width: isMobile ? "100%" : "auto", textAlign: "center", boxSizing: "border-box" }}
+        style={{
+          ...buttonPrimary,
+          display: "inline-block",
+          marginTop: 22,
+          width: isMobile ? "100%" : "auto",
+          textAlign: "center",
+          boxSizing: "border-box",
+        }}
       >
         {cta}
       </a>
@@ -659,10 +730,16 @@ function FormPanel({ cta, href, isMobile }: { cta: string; href: string; isMobil
   );
 }
 
-function BuyerVisual({ isMobile, isTablet }: { isMobile: boolean; isTablet: boolean }) {
+function BuyerVisual({ isMobile }: { isMobile: boolean }) {
   return (
     <div style={visualBox}>
-      <div style={{ ...visualHeader, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
+      <div
+        style={{
+          ...visualHeader,
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+        }}
+      >
         <div>
           <div style={miniLabel}>Buyer Snapshot</div>
           <div style={{ fontSize: 22, fontWeight: 700 }}>Qualified demand profile</div>
@@ -674,7 +751,15 @@ function BuyerVisual({ isMobile, isTablet }: { isMobile: boolean; isTablet: bool
         <MiniCard title="Budget band" text="$25k–$75k annual" />
       </div>
       <div style={innerPanel}>
-        <div style={{ display: "flex", justifyContent: "space-between", color: "rgba(255,255,255,0.6)", gap: 10, flexDirection: isMobile ? "column" : "row" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            color: "rgba(255,255,255,0.6)",
+            gap: 10,
+            flexDirection: isMobile ? "column" : "row",
+          }}
+        >
           <span>Mutual fit inputs</span>
           <span>4 of 4 complete</span>
         </div>
@@ -689,7 +774,13 @@ function BuyerVisual({ isMobile, isTablet }: { isMobile: boolean; isTablet: bool
 function VendorVisual({ isMobile }: { isMobile: boolean }) {
   return (
     <div style={visualBox}>
-      <div style={{ ...visualHeader, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
+      <div
+        style={{
+          ...visualHeader,
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+        }}
+      >
         <div>
           <div style={miniLabel}>Vendor Snapshot</div>
           <div style={{ fontSize: 22, fontWeight: 700 }}>Go-to-market profile</div>
@@ -700,7 +791,13 @@ function VendorVisual({ isMobile }: { isMobile: boolean }) {
         <MiniCard title="Best-fit segment" text="Mid-market to enterprise" />
         <MiniCard title="Use-case strength" text="Compliance, enablement, ROI" />
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)", gap: 12 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
+          gap: 12,
+        }}
+      >
         <StatCard stat="52" label="buyer signals" />
         <StatCard stat="18" label="open categories" />
         <StatCard stat="91%" label="fit accuracy" />
@@ -775,7 +872,14 @@ function PricingCard({
         padding: 24,
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexDirection: "row" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 12,
+          alignItems: "flex-start",
+        }}
+      >
         <div>
           <div style={{ fontSize: 22, fontWeight: 700 }}>{title}</div>
           <div style={{ ...mutedText, fontSize: 14 }}>{description}</div>
@@ -784,9 +888,7 @@ function PricingCard({
       </div>
       <div style={{ marginTop: 22, display: "flex", alignItems: "end", gap: 8, flexWrap: "wrap" }}>
         <div style={{ fontSize: 42, fontWeight: 700 }}>{price}</div>
-        <div style={{ color: "rgba(255,255,255,0.5)", marginBottom: 7 }}>
-          {cadence}
-        </div>
+        <div style={{ color: "rgba(255,255,255,0.5)", marginBottom: 7 }}>{cadence}</div>
       </div>
       <div style={{ ...listWrap, marginTop: 18 }}>
         {features.map((feature) => (
@@ -842,7 +944,7 @@ function MatchCard({
           <div style={miniLabel}>Match</div>
           <div style={{ marginTop: 6, fontWeight: 600 }}>{buyer}</div>
         </div>
-        {!isMobile ? <div style={{ color: "#67e8f9", alignSelf: "center" }}>×</div> : null}
+        {!isMobile ? <div style={{ color: "#67e8f9" }}>×</div> : null}
         <div style={{ textAlign: isMobile ? "left" : "right" }}>
           <div style={miniLabel}>Partner</div>
           <div style={{ marginTop: 6, fontWeight: 600 }}>{seller}</div>
@@ -879,10 +981,16 @@ function InfoCard({ title, text }: { title: string; text: string }) {
 function QuoteCard({ quote, who }: { quote: string; who: string }) {
   return (
     <div style={smallCard}>
-      <div style={{ lineHeight: 1.7, color: "rgba(255,255,255,0.82)" }}>
-        “{quote}”
-      </div>
-      <div style={{ marginTop: 14, color: "rgba(255,255,255,0.45)", fontSize: 12, textTransform: "uppercase", letterSpacing: 1.4 }}>
+      <div style={{ lineHeight: 1.7, color: "rgba(255,255,255,0.82)" }}>“{quote}”</div>
+      <div
+        style={{
+          marginTop: 14,
+          color: "rgba(255,255,255,0.45)",
+          fontSize: 12,
+          textTransform: "uppercase",
+          letterSpacing: 1.4,
+        }}
+      >
         {who}
       </div>
     </div>
@@ -935,7 +1043,15 @@ function StatCard({ stat, label }: { stat: string; label: string }) {
   return (
     <div style={{ ...smallCard, textAlign: "center" }}>
       <div style={{ fontSize: 28, fontWeight: 700 }}>{stat}</div>
-      <div style={{ marginTop: 4, fontSize: 12, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 1.2 }}>
+      <div
+        style={{
+          marginTop: 4,
+          fontSize: 12,
+          color: "rgba(255,255,255,0.45)",
+          textTransform: "uppercase",
+          letterSpacing: 1.2,
+        }}
+      >
         {label}
       </div>
     </div>
