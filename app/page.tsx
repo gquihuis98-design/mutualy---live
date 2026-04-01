@@ -171,8 +171,7 @@ export default function Home() {
               </span>
             </h2>
             <p style={{ ...mutedText, marginTop: 0, maxWidth: 470 }}>
-              Mutualy is opening access in phases. Join the waitlist to get launch
-              updates, early access news, and priority entry as new categories go live.
+              Mutualy is opening access in phases. Join the waitlist to get launch updates, early access news, and priority entry as new categories go live.
             </p>
             <div
               style={{
@@ -307,15 +306,7 @@ export default function Home() {
               {STATS.map((item) => (
                 <div key={item.label} style={metricCard}>
                   <div style={{ fontSize: 24, fontWeight: 700 }}>{item.value}</div>
-                  <div
-                    style={{
-                      marginTop: 4,
-                      color: "rgba(255,255,255,0.5)",
-                      fontSize: 12,
-                      textTransform: "uppercase",
-                      letterSpacing: 1.1,
-                    }}
-                  >
+                  <div style={{ marginTop: 4, color: "rgba(255,255,255,0.5)", fontSize: 12, textTransform: "uppercase", letterSpacing: 1.1 }}>
                     {item.label}
                   </div>
                 </div>
@@ -324,22 +315,10 @@ export default function Home() {
           </div>
 
           <div style={heroShell}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: isMobile ? "flex-start" : "center",
-                flexDirection: isMobile ? "column" : "row",
-                gap: 10,
-              }}
-            >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: 10 }}>
               <div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.52)" }}>
-                  Live matching signal
-                </div>
-                <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4 }}>
-                  Mutual fit engine
-                </div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.52)" }}>Live matching signal</div>
+                <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4 }}>Mutual fit engine</div>
               </div>
               <div style={successBadge}>94% fit confidence</div>
             </div>
@@ -358,18 +337,9 @@ export default function Home() {
                 isMobile={isMobile}
               />
               <div style={signalPanel}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 10,
-                    flexWrap: "wrap",
-                  }}
-                >
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                   <span style={miniLabel}>Platform signals</span>
-                  <span style={{ color: "rgba(255,255,255,0.48)", fontSize: 12 }}>
-                    3 of 3 aligned
-                  </span>
+                  <span style={{ color: "rgba(255,255,255,0.48)", fontSize: 12 }}>3 of 3 aligned</span>
                 </div>
                 <ProgressRow label="Category fit" width="96%" />
                 <ProgressRow label="Timeline fit" width="89%" />
@@ -379,12 +349,7 @@ export default function Home() {
           </div>
         </section>
 
-        <Section
-          id="how-it-works"
-          title="How it works"
-          subtitle="A cleaner path from profile to qualified conversation."
-          compact
-        >
+        <Section id="how-it-works" title="How it works" subtitle="A cleaner path from profile to qualified conversation." compact>
           <div style={layout.tripleGrid}>
             <StepCard
               step="01"
@@ -404,36 +369,18 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section
-          id="pricing"
-          title="Pricing"
-          subtitle="Premium access for vendors. Free access for buyers."
-          compact
-        >
+        <Section id="pricing" title="Pricing" subtitle="Premium access for vendors. Free access for buyers." compact>
           <div style={layout.pricingGrid}>
             <div style={buyerCard}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 12,
-                  alignItems: "flex-start",
-                  flexDirection: isMobile ? "column" : "row",
-                }}
-              >
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexDirection: isMobile ? "column" : "row" }}>
                 <div>
-                  <div style={{ color: "#a7f3d0", fontWeight: 700, fontSize: 14 }}>
-                    Buyer access
-                  </div>
-                  <div style={{ fontSize: 38, fontWeight: 700, marginTop: 8 }}>
-                    Free
-                  </div>
+                  <div style={{ color: "#a7f3d0", fontWeight: 700, fontSize: 14 }}>Buyer access</div>
+                  <div style={{ fontSize: 38, fontWeight: 700, marginTop: 8 }}>Free</div>
                 </div>
                 <div style={successBadge}>Always free</div>
               </div>
               <p style={mutedText}>
-                Buyers should never pay to discover relevant vendors. Free access keeps
-                demand strong and the network high-intent.
+                Buyers should never pay to discover relevant vendors. Free access keeps demand strong and the network high-intent.
               </p>
               <div style={listWrap}>
                 <div>• Share your priorities, timing, and buying context</div>
@@ -474,37 +421,16 @@ export default function Home() {
           </div>
 
           <div style={{ ...subtlePanel, marginTop: 14 }}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
-                gap: 14,
-                alignItems: "center",
-              }}
-            >
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr auto", gap: 14, alignItems: "center" }}>
               <div>
-                <div style={{ fontSize: 20, fontWeight: 700 }}>
-                  Optional success-based pricing
-                </div>
+                <div style={{ fontSize: 20, fontWeight: 700 }}>Optional success-based pricing</div>
                 <p style={{ ...mutedText, marginTop: 8 }}>
-                  For launch partners, Mutualy can layer in curated intro fees for
-                  especially high-value opportunities.
+                  For launch partners, Mutualy can layer in curated intro fees for especially high-value opportunities.
                 </p>
               </div>
               <div style={cyanPanelCompact}>
-                <div
-                  style={{
-                    fontSize: 12,
-                    textTransform: "uppercase",
-                    color: "#cffafe",
-                    letterSpacing: 1.2,
-                  }}
-                >
-                  Curated intro fee
-                </div>
-                <div style={{ fontSize: 30, fontWeight: 700, marginTop: 4 }}>
-                  $150
-                </div>
+                <div style={{ fontSize: 12, textTransform: "uppercase", color: "#cffafe", letterSpacing: 1.2 }}>Curated intro fee</div>
+                <div style={{ fontSize: 30, fontWeight: 700, marginTop: 4 }}>$150</div>
               </div>
             </div>
           </div>
@@ -545,12 +471,7 @@ export default function Home() {
           isTablet={isTablet}
         />
 
-        <Section
-          id="faq"
-          title="FAQ"
-          subtitle="Everything you need to know before joining."
-          compact
-        >
+        <Section id="faq" title="FAQ" subtitle="Everything you need to know before joining." compact>
           <div style={layout.dualGrid}>
             {FAQS.map((item) => (
               <FaqCard key={item.q} q={item.q} a={item.a} />
@@ -578,20 +499,12 @@ export default function Home() {
         <section style={{ padding: "4px 0 22px" }}>
           <div style={ctaPanel}>
             <div>
-              <div style={{ fontSize: isMobile ? 28 : 34, fontWeight: 700 }}>
-                Start with mutual fit.
-              </div>
+              <div style={{ fontSize: isMobile ? 28 : 34, fontWeight: 700 }}>Start with mutual fit.</div>
               <p style={{ ...mutedText, maxWidth: 560, marginTop: 8 }}>
-                Apply as a buyer, apply as a vendor, or join the waitlist while
-                Mutualy expands access.
+                Apply as a buyer, apply as a vendor, or join the waitlist while Mutualy expands access.
               </p>
             </div>
-            <div
-              style={{
-                ...layout.buttonRow,
-                justifyContent: isMobile ? "stretch" : "flex-end",
-              }}
-            >
+            <div style={{ ...layout.buttonRow, justifyContent: isMobile ? "stretch" : "flex-end" }}>
               <a href="#vendors" style={{ ...buttonPrimary, textAlign: "center" }}>
                 Apply as a Vendor
               </a>
@@ -669,14 +582,7 @@ function Section({
       <div style={sectionPanel}>
         <div style={eyebrow}>{title}</div>
         {subtitle ? (
-          <h2
-            style={{
-              fontSize: 34,
-              margin: "14px 0 0",
-              fontWeight: 700,
-              letterSpacing: -1.2,
-            }}
-          >
+          <h2 style={{ fontSize: 34, margin: "14px 0 0", fontWeight: 700, letterSpacing: -1.2 }}>
             {subtitle}
           </h2>
         ) : null}
@@ -713,8 +619,7 @@ function FormSection({
 }) {
   const gridStyle: React.CSSProperties = {
     display: "grid",
-    gridTemplateColumns:
-      isMobile || isTablet ? "1fr" : reverse ? "1fr 1.02fr" : "1.02fr 1fr",
+    gridTemplateColumns: isMobile || isTablet ? "1fr" : reverse ? "1fr 1.02fr" : "1.02fr 1fr",
     gap: 18,
     alignItems: "stretch",
   };
@@ -722,14 +627,7 @@ function FormSection({
   const textCol = (
     <div style={sectionCol}>
       <div style={eyebrow}>{badge}</div>
-      <h3
-        style={{
-          fontSize: isMobile ? 28 : 34,
-          margin: "14px 0 0",
-          fontWeight: 700,
-          letterSpacing: -1,
-        }}
-      >
+      <h3 style={{ fontSize: isMobile ? 28 : 34, margin: "14px 0 0", fontWeight: 700, letterSpacing: -1 }}>
         {title}
       </h3>
       <p style={{ ...mutedText, maxWidth: 560 }}>{text}</p>
@@ -769,25 +667,38 @@ function FormSection({
   );
 }
 
-function FormPanel({
-  cta,
-  href,
-  isMobile,
-}: {
-  cta: string;
-  href: string;
-  isMobile: boolean;
-}) {
+function FormPanel({ cta, href, isMobile }: { cta: string; href: string; isMobile: boolean }) {
   return (
     <div style={formPanel}>
-      <div style={iconWrap}>↗</div>
-      <div style={{ fontSize: isMobile ? 24 : 28, fontWeight: 700 }}>
-        Open the form in a new tab
+      <div style={formPanelTopRow}>
+        <div style={formPanelIconWrap}>↗</div>
+        <div style={formPanelMiniLabel}>Direct form access</div>
       </div>
-      <p style={{ ...mutedText, maxWidth: 460, margin: "10px auto 0" }}>
-        The in-app preview can block embedded Typeforms. Opening the form directly
-        keeps the experience clean and reliable.
+
+      <div
+        style={{
+          fontSize: isMobile ? 22 : 24,
+          fontWeight: 700,
+          letterSpacing: -0.6,
+          marginTop: 14,
+        }}
+      >
+        Complete your application in Typeform
+      </div>
+
+      <p
+        style={{
+          ...mutedText,
+          maxWidth: 420,
+          margin: "10px auto 0",
+          fontSize: 15,
+          lineHeight: 1.65,
+          color: "rgba(255,255,255,0.62)",
+        }}
+      >
+        We open the application in a separate tab for a faster, cleaner submission experience.
       </p>
+
       <a
         href={href}
         target="_blank"
@@ -797,6 +708,7 @@ function FormPanel({
           display: "inline-block",
           marginTop: 18,
           width: isMobile ? "100%" : "auto",
+          minWidth: isMobile ? "100%" : 220,
           textAlign: "center",
           boxSizing: "border-box",
         }}
@@ -810,13 +722,7 @@ function FormPanel({
 function BuyerVisual({ isMobile }: { isMobile: boolean }) {
   return (
     <div style={visualBox}>
-      <div
-        style={{
-          ...visualHeader,
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: isMobile ? "flex-start" : "center",
-        }}
-      >
+      <div style={{ ...visualHeader, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
         <div>
           <div style={miniLabel}>Buyer snapshot</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>Qualified demand profile</div>
@@ -839,13 +745,7 @@ function BuyerVisual({ isMobile }: { isMobile: boolean }) {
 function VendorVisual({ isMobile }: { isMobile: boolean }) {
   return (
     <div style={visualBox}>
-      <div
-        style={{
-          ...visualHeader,
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: isMobile ? "flex-start" : "center",
-        }}
-      >
+      <div style={{ ...visualHeader, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
         <div>
           <div style={miniLabel}>Vendor snapshot</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>Go-to-market profile</div>
@@ -856,13 +756,7 @@ function VendorVisual({ isMobile }: { isMobile: boolean }) {
         <MiniCard title="Best-fit segment" text="Mid-market to enterprise" />
         <MiniCard title="Use-case strength" text="Compliance, enablement, ROI" />
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
-          gap: 10,
-        }}
-      >
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)", gap: 10 }}>
         <StatCard stat="52" label="buyer signals" />
         <StatCard stat="18" label="open categories" />
         <StatCard stat="91%" label="fit accuracy" />
@@ -874,34 +768,12 @@ function VendorVisual({ isMobile }: { isMobile: boolean }) {
 function ProgressRow({ label, width }: { label: string; width: string }) {
   return (
     <div style={{ marginTop: 12 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          fontSize: 12,
-          color: "rgba(255,255,255,0.5)",
-          marginBottom: 6,
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 6 }}>
         <span>{label}</span>
         <span>{width}</span>
       </div>
-      <div
-        style={{
-          height: 8,
-          borderRadius: 999,
-          background: "rgba(255,255,255,0.08)",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            width,
-            height: 8,
-            borderRadius: 999,
-            background: "linear-gradient(90deg, #7dd3fc, #38bdf8, #a78bfa)",
-          }}
-        />
+      <div style={{ height: 8, borderRadius: 999, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+        <div style={{ width, height: 8, borderRadius: 999, background: "linear-gradient(90deg, #7dd3fc, #38bdf8, #a78bfa)" }} />
       </div>
     </div>
   );
@@ -926,29 +798,14 @@ function PricingCard({
 }) {
   return (
     <div style={{ ...pricingCardBase, ...(featured ? pricingCardFeatured : {}) }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: 12,
-          alignItems: "flex-start",
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
         <div>
           <div style={{ fontSize: 22, fontWeight: 700 }}>{title}</div>
           <div style={{ ...mutedText, fontSize: 14 }}>{description}</div>
         </div>
         <div style={featured ? cyanBadge : neutralBadge}>{badge}</div>
       </div>
-      <div
-        style={{
-          marginTop: 18,
-          display: "flex",
-          alignItems: "end",
-          gap: 8,
-          flexWrap: "wrap",
-        }}
-      >
+      <div style={{ marginTop: 18, display: "flex", alignItems: "end", gap: 8, flexWrap: "wrap" }}>
         <div style={{ fontSize: 40, fontWeight: 700 }}>{price}</div>
         <div style={{ color: "rgba(255,255,255,0.5)", marginBottom: 7 }}>{cadence}</div>
       </div>
@@ -961,28 +818,10 @@ function PricingCard({
   );
 }
 
-function MatchCard({
-  buyer,
-  seller,
-  reason,
-  isMobile,
-}: {
-  buyer: string;
-  seller: string;
-  reason: string;
-  isMobile: boolean;
-}) {
+function MatchCard({ buyer, seller, reason, isMobile }: { buyer: string; seller: string; reason: string; isMobile: boolean }) {
   return (
     <div style={matchCard}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: 14,
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: isMobile ? "flex-start" : "center",
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 14, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
         <div>
           <div style={miniLabel}>Buyer</div>
           <div style={{ marginTop: 5, fontWeight: 600 }}>{buyer}</div>
@@ -1002,9 +841,7 @@ function InfoCard({ title, text }: { title: string; text: string }) {
   return (
     <div style={compactCard}>
       <div style={{ fontWeight: 700 }}>{title}</div>
-      <div style={{ marginTop: 8, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-        {text}
-      </div>
+      <div style={{ marginTop: 8, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{text}</div>
     </div>
   );
 }
@@ -1012,20 +849,8 @@ function InfoCard({ title, text }: { title: string; text: string }) {
 function QuoteCard({ quote, who }: { quote: string; who: string }) {
   return (
     <div style={compactCard}>
-      <div style={{ lineHeight: 1.7, color: "rgba(255,255,255,0.82)" }}>
-        “{quote}”
-      </div>
-      <div
-        style={{
-          marginTop: 12,
-          fontSize: 12,
-          color: "rgba(255,255,255,0.44)",
-          textTransform: "uppercase",
-          letterSpacing: 1.2,
-        }}
-      >
-        {who}
-      </div>
+      <div style={{ lineHeight: 1.7, color: "rgba(255,255,255,0.82)" }}>“{quote}”</div>
+      <div style={{ marginTop: 12, fontSize: 12, color: "rgba(255,255,255,0.44)", textTransform: "uppercase", letterSpacing: 1.2 }}>{who}</div>
     </div>
   );
 }
@@ -1034,9 +859,7 @@ function FaqCard({ q, a }: { q: string; a: string }) {
   return (
     <div style={compactCard}>
       <div style={{ fontSize: 18, fontWeight: 700 }}>{q}</div>
-      <div style={{ marginTop: 10, lineHeight: 1.7, color: "rgba(255,255,255,0.64)" }}>
-        {a}
-      </div>
+      <div style={{ marginTop: 10, lineHeight: 1.7, color: "rgba(255,255,255,0.64)" }}>{a}</div>
     </div>
   );
 }
@@ -1044,21 +867,9 @@ function FaqCard({ q, a }: { q: string; a: string }) {
 function StepCard({ step, title, text }: { step: string; title: string; text: string }) {
   return (
     <div style={compactCard}>
-      <div
-        style={{
-          fontSize: 12,
-          color: "#a5f3fc",
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: 1.2,
-        }}
-      >
-        {step}
-      </div>
+      <div style={{ fontSize: 12, color: "#a5f3fc", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.2 }}>{step}</div>
       <div style={{ fontSize: 21, fontWeight: 700, marginTop: 10 }}>{title}</div>
-      <div style={{ marginTop: 10, lineHeight: 1.7, color: "rgba(255,255,255,0.64)" }}>
-        {text}
-      </div>
+      <div style={{ marginTop: 10, lineHeight: 1.7, color: "rgba(255,255,255,0.64)" }}>{text}</div>
     </div>
   );
 }
@@ -1067,9 +878,7 @@ function MiniCard({ title, text }: { title: string; text: string }) {
   return (
     <div style={compactCard}>
       <div style={{ fontWeight: 700 }}>{title}</div>
-      <div style={{ marginTop: 6, fontSize: 14, color: "rgba(255,255,255,0.54)" }}>
-        {text}
-      </div>
+      <div style={{ marginTop: 6, fontSize: 14, color: "rgba(255,255,255,0.54)" }}>{text}</div>
     </div>
   );
 }
@@ -1078,17 +887,7 @@ function StatCard({ stat, label }: { stat: string; label: string }) {
   return (
     <div style={{ ...compactCard, textAlign: "center" }}>
       <div style={{ fontSize: 26, fontWeight: 700 }}>{stat}</div>
-      <div
-        style={{
-          marginTop: 4,
-          fontSize: 11,
-          color: "rgba(255,255,255,0.42)",
-          textTransform: "uppercase",
-          letterSpacing: 1.1,
-        }}
-      >
-        {label}
-      </div>
+      <div style={{ marginTop: 4, fontSize: 11, color: "rgba(255,255,255,0.42)", textTransform: "uppercase", letterSpacing: 1.1 }}>{label}</div>
     </div>
   );
 }
@@ -1096,13 +895,7 @@ function StatCard({ stat, label }: { stat: string; label: string }) {
 function Logo({ small }: { small?: boolean }) {
   const size = small ? 30 : 42;
   return (
-    <svg
-      viewBox="0 0 120 120"
-      width={size}
-      height={size}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox="0 0 120 120" width={size} height={size} fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="mutualyGrad" x1="16" y1="14" x2="102" y2="106" gradientUnits="userSpaceOnUse">
           <stop stopColor="#7DD3FC" />
@@ -1111,10 +904,7 @@ function Logo({ small }: { small?: boolean }) {
         </linearGradient>
       </defs>
       <rect x="8" y="8" width="104" height="104" rx="30" fill="url(#mutualyGrad)" />
-      <path
-        d="M32 77V43h9.5l18.5 19 18.5-19H88v34h-10V58.4L60 76 42 58.4V77H32Z"
-        fill="#0A0F1D"
-      />
+      <path d="M32 77V43h9.5l18.5 19 18.5-19H88v34h-10V58.4L60 76 42 58.4V77H32Z" fill="#0A0F1D" />
       <circle cx="60" cy="60" r="49" stroke="rgba(255,255,255,0.32)" />
     </svg>
   );
@@ -1182,8 +972,7 @@ const pricingCardBase: React.CSSProperties = {
 
 const pricingCardFeatured: React.CSSProperties = {
   border: "1px solid rgba(34,211,238,0.25)",
-  background:
-    "linear-gradient(135deg, rgba(34,211,238,0.10), rgba(10,15,29,0.95), rgba(167,139,250,0.10))",
+  background: "linear-gradient(135deg, rgba(34,211,238,0.10), rgba(10,15,29,0.95), rgba(167,139,250,0.10))",
 };
 
 const buyerCard: React.CSSProperties = {
@@ -1220,8 +1009,7 @@ const visualBox: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.08)",
   borderRadius: 24,
   padding: 18,
-  background:
-    "linear-gradient(135deg, rgba(56,189,248,0.08), rgba(10,15,29,0.95), rgba(167,139,250,0.08))",
+  background: "linear-gradient(135deg, rgba(56,189,248,0.08), rgba(10,15,29,0.95), rgba(167,139,250,0.08))",
 };
 
 const visualHeader: React.CSSProperties = {
@@ -1234,8 +1022,7 @@ const visualHeader: React.CSSProperties = {
 
 const ctaPanel: React.CSSProperties = {
   border: "1px solid rgba(34,211,238,0.2)",
-  background:
-    "linear-gradient(135deg, rgba(34,211,238,0.10), rgba(10,15,29,0.95), rgba(167,139,250,0.10))",
+  background: "linear-gradient(135deg, rgba(34,211,238,0.10), rgba(10,15,29,0.95), rgba(167,139,250,0.10))",
   borderRadius: 28,
   padding: 24,
   display: "grid",
@@ -1377,3 +1164,4 @@ const footerLink: React.CSSProperties = {
   textDecoration: "none",
   fontSize: 14,
 };
+
