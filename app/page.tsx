@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -1051,4 +1050,3 @@ const footerLink: React.CSSProperties = {
   textDecoration: "none",
   fontSize: 14,
 };
-
