@@ -1163,5 +1163,32 @@ const footerLink: React.CSSProperties = {
   color: "rgba(255,255,255,0.68)",
   textDecoration: "none",
   fontSize: 14,
+};const formPanelTopRow: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 10,
+};
+
+const formPanelIconWrap: React.CSSProperties = {
+  width: 56,
+  height: 56,
+  borderRadius: 18,
+  border: "1px solid rgba(34,211,238,0.22)",
+  background: "rgba(34,211,238,0.08)",
+  color: "#cffafe",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 22,
+  fontWeight: 700,
+  margin: "0 auto",
+};
+
+const formPanelMiniLabel: React.CSSProperties = {
+  fontSize: 11,
+  color: "rgba(165,243,252,0.75)",
+  textTransform: "uppercase",
+  letterSpacing: 1.4,
 };
 
