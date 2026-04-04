@@ -933,5 +933,5 @@ function SideCard({
         {bullets.map((bullet) => (
           <div key={bullet} className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]">
             <span className="mt-1 text-[#34d3c5]">✓</span>
-            <span>{bullet}</span>
+            <span>{bullet}</span> 
      
