@@ -1194,4 +1194,4 @@ function PricingCard({
       </a>
     </div>
   );
-}
+} 
