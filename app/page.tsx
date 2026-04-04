@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -128,13 +130,6 @@ const vendorBullets = [
   "Access higher-quality buyer opportunities",
 ] as const;
 
-const stats = [
-  { value: "87%", label: "Match acceptance rate" },
-  { value: "3.2x", label: "Faster to first meeting" },
-  { value: "12hrs", label: "Average time saved" },
-  { value: "94%", label: "Intro quality score" },
-] as const;
-
 const faqs = [
   {
     q: "How do matches work?",
@@ -150,7 +145,7 @@ const faqs = [
   },
   {
     q: "When do vendors pay?",
-    a: "Mutualy can support premium vendor access and curated plans, but pricing is currently available through early access conversations.",
+    a: "Mutualy is currently in early access. Vendor pricing and premium access are being rolled out through curated early access conversations.",
   },
   {
     q: "What information is shared?",
@@ -161,8 +156,6 @@ const faqs = [
     a: "Lead databases provide names. Mutualy is designed to create permission-based introductions built on actual fit and buyer openness.",
   },
 ] as const;
-
-const logos = ["Acme Corp", "NovaTech", "Synapse", "CloudBase", "Vertex AI", "Dataflow"] as const;
 
 const demoMatches: DemoMatch[] = [
   {
@@ -249,19 +242,25 @@ export default function MutualyEliteLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-[#eef1f7] text-[#0f1730] font-sans">
+    <div className="min-h-screen bg-[#eef1f7] font-sans text-[#0f1730]">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#04112b] backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-6">
           <a href="#top" className="flex items-center gap-3 text-white">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#4166ff] to-[#34d3c5] text-[22px] font-extrabold tracking-[-0.05em] shadow-[0_10px_30px_rgba(52,211,197,0.18)]">
               M
             </span>
-            <span className="text-[28px] font-extrabold tracking-[-0.03em] md:text-[34px]">Mutualy</span>
+            <span className="text-[28px] font-extrabold tracking-[-0.03em] md:text-[34px]">
+              Mutualy
+            </span>
           </a>
 
           <nav className="hidden items-center gap-8 md:flex">
             {headerLinks.map((item) => (
-              <a key={item.label} href={item.href} className="text-sm font-medium text-white/75 transition hover:text-white">
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium text-white/75 transition hover:text-white"
+              >
                 {item.label}
               </a>
             ))}
@@ -294,29 +293,57 @@ export default function MutualyEliteLanding() {
 
               <div className="mt-8 space-y-8">
                 <div>
-                  <div className="mb-4 text-[14px] font-semibold text-white">Product</div>
+                  <div className="mb-4 text-[14px] font-semibold text-white">
+                    Product
+                  </div>
                   <div className="space-y-5 text-[15px] text-white/45">
                     {headerLinks.map((item) => (
-                      <a key={item.label} href={item.href} className="block" onClick={() => setMenuOpen(false)}>
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className="block"
+                        onClick={() => setMenuOpen(false)}
+                      >
                         {item.label}
                       </a>
                     ))}
-                    <a href="#pricing-coming" className="block" onClick={() => setMenuOpen(false)}>
+                    <a
+                      href="#pricing-coming"
+                      className="block"
+                      onClick={() => setMenuOpen(false)}
+                    >
                       Pricing
                     </a>
                   </div>
                 </div>
 
                 <div>
-                  <div className="mb-4 text-[14px] font-semibold text-white">Connect</div>
+                  <div className="mb-4 text-[14px] font-semibold text-white">
+                    Connect
+                  </div>
                   <div className="space-y-5 text-[15px] text-white/45">
-                    <a href="https://form.typeform.com/to/oLtDvuLX" target="_blank" rel="noreferrer" className="block">
+                    <a
+                      href="https://form.typeform.com/to/oLtDvuLX"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block"
+                    >
                       Apply as Buyer
                     </a>
-                    <a href="https://form.typeform.com/to/oYc6xZr0" target="_blank" rel="noreferrer" className="block">
+                    <a
+                      href="https://form.typeform.com/to/oYc6xZr0"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block"
+                    >
                       Apply as Vendor
                     </a>
-                    <a href="https://form.typeform.com/to/Vx8Qdbfu" target="_blank" rel="noreferrer" className="block">
+                    <a
+                      href="https://form.typeform.com/to/Vx8Qdbfu"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block"
+                    >
                       Join Waitlist
                     </a>
                   </div>
@@ -353,8 +380,11 @@ export default function MutualyEliteLanding() {
                     actually want
                   </span>
                 </h1>
+
                 <p className="mt-8 max-w-3xl text-[18px] leading-9 text-white/52 md:text-[20px]">
-                  Mutualy replaces cold outreach with permission-based matchmaking. Buyers set their priorities. Vendors match on fit. Only relevant conversations happen.
+                  Mutualy replaces cold outreach with permission-based matchmaking.
+                  Buyers set their priorities. Vendors match on fit. Only relevant
+                  conversations happen.
                 </p>
 
                 <div className="mt-9 flex flex-col gap-4 sm:flex-row">
@@ -367,6 +397,7 @@ export default function MutualyEliteLanding() {
                     Join Mutualy
                     <ArrowRight className="ml-3" size={22} />
                   </a>
+
                   <a
                     href="#how-it-works"
                     className="inline-flex items-center justify-center rounded-[22px] bg-white/90 px-7 py-5 text-[18px] font-semibold text-[#18203a]"
@@ -415,27 +446,41 @@ export default function MutualyEliteLanding() {
                         chips: ["Forecasting", "RevOps", "Growth"],
                       },
                     ].map((item) => (
-                      <div key={item.name} className="rounded-[24px] border border-white/10 bg-white/5 p-5">
+                      <div
+                        key={item.name}
+                        className="rounded-[24px] border border-white/10 bg-white/5 p-5"
+                      >
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-start gap-4">
                             <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-gradient-to-br from-[#4166ff] to-[#7b4df1] text-xl font-bold text-white">
                               {item.name.charAt(0)}
                             </div>
                             <div>
-                              <div className="text-[18px] font-semibold">{item.name}</div>
-                              <div className="text-[15px] text-white/45">{item.subtitle}</div>
+                              <div className="text-[18px] font-semibold">
+                                {item.name}
+                              </div>
+                              <div className="text-[15px] text-white/45">
+                                {item.subtitle}
+                              </div>
                             </div>
                           </div>
+
                           <div className="text-right">
-                            <div className="text-[22px] font-bold text-[#39b2f0]">{item.match}</div>
+                            <div className="text-[22px] font-bold text-[#39b2f0]">
+                              {item.match}
+                            </div>
                             <div className="mt-2 inline-flex rounded-full border border-[#2fd7c1]/30 bg-[#2fd7c1]/10 px-3 py-1 text-xs font-semibold text-[#34d3c5]">
                               {item.badge}
                             </div>
                           </div>
                         </div>
+
                         <div className="mt-4 flex flex-wrap gap-2">
                           {item.chips.map((chip) => (
-                            <div key={chip} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[13px] text-white/65">
+                            <div
+                              key={chip}
+                              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[13px] text-white/65"
+                            >
                               {chip}
                             </div>
                           ))}
@@ -454,8 +499,8 @@ export default function MutualyEliteLanding() {
             eyebrow="The Problem"
             title="B2B outreach is broken for everyone"
             subtitle="Buyers are drowning in irrelevant pitches. Sellers are burning budget on cold leads. There has to be a better way."
-            dark={false}
           />
+
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {problems.map((item) => (
               <div
@@ -466,11 +511,19 @@ export default function MutualyEliteLanding() {
                     : "border-[#d9deeb] bg-white shadow-[0_14px_40px_rgba(15,23,48,0.06)]"
                 }`}
               >
-                <div className={`flex h-16 w-16 items-center justify-center rounded-[20px] text-[28px] ${item.highlight ? "bg-[#dcf7f2]" : "bg-[#f4f5fa]"}`}>
+                <div
+                  className={`flex h-16 w-16 items-center justify-center rounded-[20px] text-[28px] ${
+                    item.highlight ? "bg-[#dcf7f2]" : "bg-[#f4f5fa]"
+                  }`}
+                >
                   {item.icon}
                 </div>
-                <h3 className="mt-8 text-[26px] font-bold tracking-[-0.03em] text-[#0f1730]">{item.title}</h3>
-                <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">{item.text}</p>
+                <h3 className="mt-8 text-[26px] font-bold tracking-[-0.03em] text-[#0f1730]">
+                  {item.title}
+                </h3>
+                <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
@@ -478,10 +531,15 @@ export default function MutualyEliteLanding() {
 
         <section className="mx-auto max-w-4xl px-5 py-12 md:px-6 md:py-16">
           <div className="text-center">
-            <div className="text-sm font-semibold tracking-widest text-[#4166ff] uppercase">Try it yourself</div>
-            <h2 className="mt-4 text-3xl font-extrabold text-[#0f1730] md:text-5xl">See how matching feels</h2>
+            <div className="text-sm font-semibold uppercase tracking-widest text-[#4166ff]">
+              Try it yourself
+            </div>
+            <h2 className="mt-4 text-3xl font-extrabold text-[#0f1730] md:text-5xl">
+              See how matching feels
+            </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[#6b7285]">
-              Prospects can click through real-looking vendor matches on the page. Accept the ones that fit, decline the rest.
+              Prospects can click through real-looking vendor matches on the page.
+              Accept the ones that fit, decline the rest.
             </p>
           </div>
 
@@ -507,21 +565,35 @@ export default function MutualyEliteLanding() {
                       {currentMatch.letter}
                     </div>
                     <div className="min-w-0">
-                      <div className="truncate text-xl font-semibold text-[#11182d]">{currentMatch.name}</div>
-                      <div className="truncate text-base text-gray-500">{currentMatch.subtitle}</div>
+                      <div className="truncate text-xl font-semibold text-[#11182d]">
+                        {currentMatch.name}
+                      </div>
+                      <div className="truncate text-base text-gray-500">
+                        {currentMatch.subtitle}
+                      </div>
                     </div>
                   </div>
+
                   <div className="shrink-0 text-right">
-                    <div className="text-3xl font-bold text-[#34d3c5]">{currentMatch.match}</div>
-                    <div className="text-xs tracking-[0.18em] text-gray-400">MATCH</div>
+                    <div className="text-3xl font-bold text-[#34d3c5]">
+                      {currentMatch.match}
+                    </div>
+                    <div className="text-xs tracking-[0.18em] text-gray-400">
+                      MATCH
+                    </div>
                   </div>
                 </div>
 
-                <p className="mt-5 text-lg leading-8 text-gray-600">{currentMatch.description}</p>
+                <p className="mt-5 text-lg leading-8 text-gray-600">
+                  {currentMatch.description}
+                </p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
                   {currentMatch.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-[#d7dcf4] bg-[#f7f8fd] px-3 py-1.5 text-xs text-[#4b5fd6]">
+                    <span
+                      key={tag}
+                      className="rounded-full border border-[#d7dcf4] bg-[#f7f8fd] px-3 py-1.5 text-xs text-[#4b5fd6]"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -530,23 +602,37 @@ export default function MutualyEliteLanding() {
                 <div className="mt-6 grid grid-cols-1 gap-4 border-t border-[#e5e7ef] pt-6 text-sm text-gray-600 sm:grid-cols-2">
                   <div>
                     <span className="font-semibold text-[#7b8193]">Company</span>
-                    <div className="text-lg text-[#11182d]">{currentMatch.company}</div>
+                    <div className="text-lg text-[#11182d]">
+                      {currentMatch.company}
+                    </div>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#7b8193]">Stack Fit</span>
-                    <div className="text-lg text-[#11182d]">{currentMatch.stack}</div>
+                    <span className="font-semibold text-[#7b8193]">
+                      Stack Fit
+                    </span>
+                    <div className="text-lg text-[#11182d]">
+                      {currentMatch.stack}
+                    </div>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#7b8193]">ICP Match</span>
-                    <div className="text-lg text-[#11182d]">{currentMatch.icp}</div>
+                    <span className="font-semibold text-[#7b8193]">
+                      ICP Match
+                    </span>
+                    <div className="text-lg text-[#11182d]">
+                      {currentMatch.icp}
+                    </div>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#7b8193]">Budget Fit</span>
-                    <div className="text-lg text-[#11182d]">{currentMatch.budget}</div>
+                    <span className="font-semibold text-[#7b8193]">
+                      Budget Fit
+                    </span>
+                    <div className="text-lg text-[#11182d]">
+                      {currentMatch.budget}
+                    </div>
                   </div>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 gap-0 overflow-hidden rounded-2xl border border-[#e5e7ef]">
+                <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-2xl border border-[#e5e7ef]">
                   <button
                     onClick={() => handleMatchAction("decline")}
                     className="border-r border-[#e5e7ef] bg-white py-4 text-lg font-semibold text-rose-500 transition hover:bg-rose-50"
@@ -565,25 +651,37 @@ export default function MutualyEliteLanding() {
           </div>
         </section>
 
-        <section id="how-it-works" className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+        <section
+          id="how-it-works"
+          className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16"
+        >
           <SectionHeader
             eyebrow="How it works"
             title="From profile to conversation in five steps"
             subtitle="A simple, transparent process that respects everyone’s time."
-            dark={false}
           />
+
           <div className="mt-10 space-y-6">
             {steps.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.step} className="flex items-start gap-5 rounded-[30px] border border-[#d9deeb] bg-white p-6 shadow-[0_14px_40px_rgba(15,23,48,0.05)] md:p-7">
+                <div
+                  key={item.step}
+                  className="flex items-start gap-5 rounded-[30px] border border-[#d9deeb] bg-white p-6 shadow-[0_14px_40px_rgba(15,23,48,0.05)] md:p-7"
+                >
                   <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[28px] bg-gradient-to-br from-[#4166ff] to-[#7c4df0] text-white shadow-[0_14px_34px_rgba(65,102,255,0.22)]">
                     <Icon size={34} />
                   </div>
                   <div className="pt-1">
-                    <div className="text-[18px] font-semibold text-[#4166ff]">{item.step}</div>
-                    <h3 className="mt-2 text-[30px] font-extrabold tracking-[-0.04em] text-[#0f1730]">{item.title}</h3>
-                    <p className="mt-4 text-[18px] leading-9 text-[#6b7285]">{item.text}</p>
+                    <div className="text-[18px] font-semibold text-[#4166ff]">
+                      {item.step}
+                    </div>
+                    <h3 className="mt-2 text-[30px] font-extrabold tracking-[-0.04em] text-[#0f1730]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-4 text-[18px] leading-9 text-[#6b7285]">
+                      {item.text}
+                    </p>
                   </div>
                 </div>
               );
@@ -591,13 +689,16 @@ export default function MutualyEliteLanding() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+        <section
+          id="buyers"
+          className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16"
+        >
           <SectionHeader
             eyebrow="Platform"
             title="Built for both sides of the table"
             subtitle="Whether you're buying or selling, Mutualy ensures every interaction is worth your time."
-            dark={false}
           />
+
           <div className="mt-10 grid gap-5 lg:grid-cols-2">
             <SideCard
               eyebrow="For Buyers"
@@ -608,6 +709,7 @@ export default function MutualyEliteLanding() {
               ctaHref="https://form.typeform.com/to/oLtDvuLX"
               accent="buyer"
             />
+
             <SideCard
               eyebrow="For Vendors"
               title="Sell to people who want to buy"
@@ -629,6 +731,7 @@ export default function MutualyEliteLanding() {
               backgroundSize: "24px 24px",
             }}
           />
+
           <div className="mx-auto max-w-6xl px-5 md:px-6">
             <SectionHeader
               eyebrow="Matching Engine"
@@ -641,32 +744,45 @@ export default function MutualyEliteLanding() {
               {matchSignals.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="rounded-[30px] border border-white/10 bg-white/[0.04] p-7 shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+                  <div
+                    key={item.title}
+                    className="rounded-[30px] border border-white/10 bg-white/[0.04] p-7 shadow-[0_18px_50px_rgba(0,0,0,0.18)]"
+                  >
                     <div className="flex h-16 w-16 items-center justify-center rounded-[22px] bg-gradient-to-br from-[#4166ff] to-[#7c4df0] text-white">
                       <Icon size={30} />
                     </div>
-                    <h3 className="mt-8 text-[24px] font-bold tracking-[-0.03em] text-white">{item.title}</h3>
-                    <p className="mt-4 text-[18px] leading-9 text-white/46">{item.text}</p>
+                    <h3 className="mt-8 text-[24px] font-bold tracking-[-0.03em] text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-4 text-[18px] leading-9 text-white/46">
+                      {item.text}
+                    </p>
                   </div>
                 );
               })}
             </div>
 
             <div className="mt-8 rounded-[30px] border border-[#2fd7c1]/25 bg-[linear-gradient(180deg,rgba(20,53,86,0.64),rgba(10,26,56,0.6))] p-8 text-center shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
-              <h3 className="text-[28px] font-extrabold tracking-[-0.04em] text-white md:text-[36px]">Permission-Based Pipeline™</h3>
+              <h3 className="text-[28px] font-extrabold tracking-[-0.04em] text-white md:text-[36px]">
+                Permission-Based Pipeline™
+              </h3>
               <p className="mx-auto mt-5 max-w-4xl text-[19px] leading-9 text-white/52">
-                Every introduction on Mutualy requires buyer consent. Vendors never reach out cold — buyers choose to engage. This creates a pipeline built on mutual interest, not interruption.
+                Every introduction on Mutualy requires buyer consent. Vendors never
+                reach out cold — buyers choose to engage. This creates a pipeline
+                built on mutual interest, not interruption.
               </p>
             </div>
           </div>
         </section>
 
-        <section id="pricing-coming" className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+        <section
+          id="pricing-coming"
+          className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16"
+        >
           <SectionHeader
             eyebrow="Pricing"
             title="Simple pricing for vendors. Free for buyers."
             subtitle="Buyers always join free. Vendor plans are rolling out through curated early access."
-            dark={false}
           />
 
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
@@ -683,6 +799,7 @@ export default function MutualyEliteLanding() {
               cta="Join waitlist"
               href="https://form.typeform.com/to/Vx8Qdbfu"
             />
+
             <PricingCard
               title="Premium"
               price="Custom"
@@ -698,6 +815,7 @@ export default function MutualyEliteLanding() {
               featured
               badge="Most Popular"
             />
+
             <PricingCard
               title="Enterprise"
               price="Custom"
@@ -723,7 +841,6 @@ export default function MutualyEliteLanding() {
             eyebrow="Built for"
             title="Built for modern revenue teams and procurement leaders"
             subtitle="Mutualy is being designed around a simple principle: better B2B conversations start with fit, context, and permission."
-            dark={false}
           />
 
           <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -749,8 +866,12 @@ export default function MutualyEliteLanding() {
                 key={item.title}
                 className="rounded-[28px] border border-[#d9deeb] bg-white p-7 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8"
               >
-                <div className="text-[24px] font-bold tracking-[-0.03em] text-[#11182d]">{item.title}</div>
-                <div className="mt-4 text-[18px] leading-8 text-[#6b7285]">{item.text}</div>
+                <div className="text-[24px] font-bold tracking-[-0.03em] text-[#11182d]">
+                  {item.title}
+                </div>
+                <div className="mt-4 text-[18px] leading-8 text-[#6b7285]">
+                  {item.text}
+                </div>
               </div>
             ))}
           </div>
@@ -765,7 +886,9 @@ export default function MutualyEliteLanding() {
               Mutualy is currently in early access.
             </div>
             <p className="mx-auto mt-5 max-w-3xl text-[18px] leading-9 text-[#6b7285] md:text-[20px]">
-              We are focused on building the right product foundation before publishing customer logos, testimonials, or performance claims. Early-access members help shape the experience.
+              We are focused on building the right product foundation before
+              publishing customer logos, testimonials, or performance claims.
+              Early-access members help shape the experience.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
@@ -789,17 +912,20 @@ export default function MutualyEliteLanding() {
           </div>
         </section>
 
-        <section id="faq" className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+        <section
+          id="faq"
+          className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16"
+        >
           <SectionHeader
             eyebrow="FAQ"
             title="Frequently asked questions"
             subtitle="Answers to the most common questions about the platform."
-            dark={false}
           />
 
           <div className="mt-10 space-y-5">
             {faqs.map((item, index) => {
               const isOpen = faqOpen === index;
+
               return (
                 <button
                   key={item.q}
@@ -807,10 +933,21 @@ export default function MutualyEliteLanding() {
                   className="w-full rounded-[28px] border border-[#d9deeb] bg-white px-6 py-7 text-left shadow-[0_12px_34px_rgba(15,23,48,0.04)] transition"
                 >
                   <div className="flex items-center justify-between gap-4">
-                    <div className="text-[24px] font-bold tracking-[-0.03em] text-[#11182d] md:text-[28px]">{item.q}</div>
-                    <ChevronDown className={`shrink-0 transition ${isOpen ? "rotate-180" : ""}`} size={28} />
+                    <div className="text-[24px] font-bold tracking-[-0.03em] text-[#11182d] md:text-[28px]">
+                      {item.q}
+                    </div>
+                    <ChevronDown
+                      className={`shrink-0 transition ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                      size={28}
+                    />
                   </div>
-                  {isOpen && <div className="mt-5 max-w-4xl text-[18px] leading-9 text-[#6b7285]">{item.a}</div>}
+                  {isOpen && (
+                    <div className="mt-5 max-w-4xl text-[18px] leading-9 text-[#6b7285]">
+                      {item.a}
+                    </div>
+                  )}
                 </button>
               );
             })}
@@ -835,9 +972,12 @@ export default function MutualyEliteLanding() {
                 Start matching.
               </span>
             </h2>
+
             <p className="mx-auto mt-7 max-w-4xl text-[19px] leading-9 text-white/50 md:text-[22px]">
-              Join the platform where B2B conversations start with mutual interest, verified fit, and real buying intent.
+              Join the platform where B2B conversations start with mutual interest,
+              verified fit, and real buying intent.
             </p>
+
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="https://form.typeform.com/to/oLtDvuLX"
@@ -847,6 +987,7 @@ export default function MutualyEliteLanding() {
               >
                 Join as a Buyer — Free
               </a>
+
               <a
                 href="https://form.typeform.com/to/Vx8Qdbfu"
                 target="_blank"
@@ -862,8 +1003,12 @@ export default function MutualyEliteLanding() {
 
       <footer className="border-t border-white/8 bg-[#020617] px-5 py-10 text-center md:px-6">
         <div className="mx-auto max-w-6xl">
-          <div className="text-[28px] font-extrabold tracking-[-0.03em] text-white">Mutualy</div>
-          <p className="mt-3 text-[16px] leading-8 text-white/42">Permission-based B2B matchmaking.</p>
+          <div className="text-[28px] font-extrabold tracking-[-0.03em] text-white">
+            Mutualy
+          </div>
+          <p className="mt-3 text-[16px] leading-8 text-white/42">
+            Permission-based B2B matchmaking.
+          </p>
           <div className="mt-6 flex justify-center gap-6 text-[15px] text-white/55">
             <a href="#faq">FAQ</a>
             <a href="#">Privacy</a>
@@ -888,13 +1033,25 @@ function SectionHeader({
 }) {
   return (
     <div className="text-center">
-      <div className={`text-[16px] font-semibold uppercase tracking-[0.2em] ${dark ? "text-[#34d3c5]" : "text-[#4166ff]"}`}>
+      <div
+        className={`text-[16px] font-semibold uppercase tracking-[0.2em] ${
+          dark ? "text-[#34d3c5]" : "text-[#4166ff]"
+        }`}
+      >
         {eyebrow}
       </div>
-      <h2 className={`mx-auto mt-4 max-w-5xl text-[46px] font-extrabold leading-[1.05] tracking-[-0.06em] md:text-[76px] ${dark ? "text-white" : "text-[#0f1730]"}`}>
+      <h2
+        className={`mx-auto mt-4 max-w-5xl text-[46px] font-extrabold leading-[1.05] tracking-[-0.06em] md:text-[76px] ${
+          dark ? "text-white" : "text-[#0f1730]"
+        }`}
+      >
         {title}
       </h2>
-      <p className={`mx-auto mt-6 max-w-4xl text-[19px] leading-9 md:text-[22px] ${dark ? "text-white/48" : "text-[#6b7285]"}`}>
+      <p
+        className={`mx-auto mt-6 max-w-4xl text-[19px] leading-9 md:text-[22px] ${
+          dark ? "text-white/48" : "text-[#6b7285]"
+        }`}
+      >
         {subtitle}
       </p>
     </div>
@@ -919,17 +1076,35 @@ function SideCard({
   accent: "buyer" | "vendor";
 }) {
   const buyer = accent === "buyer";
+
   return (
-    <div className={`rounded-[32px] border p-8 md:p-9 ${buyer ? "border-[#bcebe3] bg-[#effaf8]" : "border-[#cdd0fb] bg-[#f1f2ff]"}`}>
-      <div className={`text-[18px] font-semibold uppercase tracking-[0.18em] ${buyer ? "text-[#34d3c5]" : "text-[#4166ff]"}`}>
+    <div
+      className={`rounded-[32px] border p-8 md:p-9 ${
+        buyer
+          ? "border-[#bcebe3] bg-[#effaf8]"
+          : "border-[#cdd0fb] bg-[#f1f2ff]"
+      }`}
+    >
+      <div
+        className={`text-[18px] font-semibold uppercase tracking-[0.18em] ${
+          buyer ? "text-[#34d3c5]" : "text-[#4166ff]"
+        }`}
+      >
         {eyebrow}
       </div>
-      <h3 className="mt-5 text-[46px] font-extrabold leading-[1.1] tracking-[-0.05em] text-[#11182d]">{title}</h3>
+
+      <h3 className="mt-5 text-[46px] font-extrabold leading-[1.1] tracking-[-0.05em] text-[#11182d]">
+        {title}
+      </h3>
+
       <p className="mt-6 text-[19px] leading-9 text-[#6b7285]">{text}</p>
 
       <div className="mt-7 space-y-5">
         {bullets.map((bullet) => (
-          <div key={bullet} className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]">
+          <div
+            key={bullet}
+            className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]"
+          >
             <span className="mt-1 text-[#34d3c5]">✓</span>
             <span>{bullet}</span>
           </div>
@@ -984,13 +1159,20 @@ function PricingCard({
         </div>
       )}
 
-      <div className="text-[28px] font-bold tracking-[-0.03em] text-[#11182d]">{title}</div>
-      <div className="mt-8 text-[58px] font-extrabold tracking-[-0.06em] text-[#11182d]">{price}</div>
+      <div className="text-[28px] font-bold tracking-[-0.03em] text-[#11182d]">
+        {title}
+      </div>
+      <div className="mt-8 text-[58px] font-extrabold tracking-[-0.06em] text-[#11182d]">
+        {price}
+      </div>
       <p className="mt-4 text-[18px] leading-9 text-[#6b7285]">{subtitle}</p>
 
       <div className="mt-8 space-y-4">
         {bullets.map((bullet) => (
-          <div key={bullet} className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]">
+          <div
+            key={bullet}
+            className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]"
+          >
             <span className="mt-1 text-[#34d3c5]">✓</span>
             <span>{bullet}</span>
           </div>
