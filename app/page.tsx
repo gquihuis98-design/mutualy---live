@@ -520,7 +520,6 @@ export default function Page() {
             eyebrow="The Problem"
             title="B2B outreach is broken for everyone"
             subtitle="Buyers are drowning in irrelevant pitches. Sellers are burning budget on cold leads. There has to be a better way."
-            dark={false}
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {problems.map((item) => (
@@ -660,7 +659,6 @@ export default function Page() {
             eyebrow="How it works"
             title="From profile to conversation in five steps"
             subtitle="A simple, transparent process that respects everyone’s time."
-            dark={false}
           />
           <div className="mt-10 space-y-6">
             {steps.map((item) => {
@@ -695,7 +693,6 @@ export default function Page() {
             eyebrow="Platform"
             title="Built for both sides of the table"
             subtitle="Whether you're buying or selling, Mutualy ensures every interaction is worth your time."
-            dark={false}
           />
           <div className="mt-10 grid gap-5 lg:grid-cols-2">
             <SideCard
@@ -776,7 +773,6 @@ export default function Page() {
             eyebrow="Pricing"
             title="Simple pricing for vendors. Free for buyers."
             subtitle="Buyers always join free. Vendor plans are rolling out through curated early access."
-            dark={false}
           />
 
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
@@ -833,7 +829,6 @@ export default function Page() {
             eyebrow="Built for"
             title="Built for modern revenue teams and procurement leaders"
             subtitle="Mutualy is being designed around a simpler, cleaner way to connect qualified buyers and relevant vendors."
-            dark={false}
           />
 
           <div className="mt-12 grid gap-5 md:grid-cols-2">
@@ -934,7 +929,6 @@ export default function Page() {
             eyebrow="FAQ"
             title="Frequently asked questions"
             subtitle="Answers to the most common questions about the platform."
-            dark={false}
           />
 
           <div className="mt-10 space-y-5">
