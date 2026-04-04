@@ -287,12 +287,7 @@ export default function MutualyEliteLanding() {
         {menuOpen && (
           <div className="border-t border-white/10 bg-[linear-gradient(180deg,#04112b,#06163a)] px-5 py-6 md:hidden">
             <div className="mx-auto max-w-6xl">
-              <div className="flex items-center gap-3 text-white">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#4166ff] to-[#34d3c5] text-[20px] font-extrabold tracking-[-0.05em] shadow-[0_10px_30px_rgba(52,211,197,0.18)]">
-                  M
-                </span>
-                <span className="text-[22px] font-extrabold">Mutualy</span>
-              </div>
+              <div className="text-[22px] font-extrabold text-white">Mutualy</div>
               <p className="mt-4 max-w-sm text-[15px] leading-8 text-white/45">
                 Permission-based B2B matchmaking. Better conversations, better outcomes.
               </p>
@@ -727,49 +722,37 @@ export default function MutualyEliteLanding() {
           <SectionHeader
             eyebrow="Built for"
             title="Built for modern revenue teams and procurement leaders"
-            subtitle="Designed for how great B2B buying and selling should actually work — even before the first cold email gets sent."
+            subtitle="Mutualy is being designed around a simple principle: better B2B conversations start with fit, context, and permission."
             dark={false}
           />
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
-            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
-              <div className="text-[18px] font-semibold uppercase tracking-[0.18em] text-[#4166ff]">Why it matters</div>
-              <h3 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-[-0.04em] text-[#11182d] md:text-[42px]">
-                Better conversations start before the intro
-              </h3>
-              <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">
-                Mutualy is designed to help buyers discover better-fit vendors and help vendors reach people who actually want to hear from them.
-              </p>
-            </div>
-
-            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
-              <div className="text-[18px] font-semibold uppercase tracking-[0.18em] text-[#34d3c5]">Early access focus</div>
-              <h3 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-[-0.04em] text-[#11182d] md:text-[42px]">
-                Built with quality, control, and fit in mind
-              </h3>
-              <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">
-                Instead of showing fake traction, we’re focused on building the right experience first: qualified intros, buyer control, and a cleaner path to real pipeline.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-12 grid grid-cols-2 gap-5">
-            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
-              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Buyer-approved</div>
-              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">Every introduction is permission-based</div>
-            </div>
-            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
-              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Fit-first</div>
-              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">Matches are based on relevance, not volume</div>
-            </div>
-            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
-              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Less noise</div>
-              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">No spray-and-pray outbound motion</div>
-            </div>
-            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
-              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Higher quality</div>
-              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">Built for stronger, more qualified conversations</div>
-            </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              {
+                title: "Permission-based",
+                text: "Every introduction is designed to begin with buyer awareness and control.",
+              },
+              {
+                title: "Fit-first",
+                text: "Matches are based on relevance, priorities, and buying context instead of pure volume.",
+              },
+              {
+                title: "Lower-noise pipeline",
+                text: "Built to reduce cold outreach and increase conversation quality.",
+              },
+              {
+                title: "Early-access product",
+                text: "We’re intentionally building with care before publicly claiming customer traction.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-[28px] border border-[#d9deeb] bg-white p-7 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8"
+              >
+                <div className="text-[24px] font-bold tracking-[-0.03em] text-[#11182d]">{item.title}</div>
+                <div className="mt-4 text-[18px] leading-8 text-[#6b7285]">{item.text}</div>
+              </div>
+            ))}
           </div>
         </section>
 
