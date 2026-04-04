@@ -1,780 +1,971 @@
-"use client";
+import { useMemo, useState } from "react";
+import {
+  ArrowRight,
+  CalendarDays,
+  ChevronDown,
+  Menu,
+  Search,
+  Shield,
+  Target,
+  UserPlus,
+  Wallet,
+  Zap,
+} from "lucide-react";
 
-import { useEffect, useMemo, useState } from "react";
+type DemoMatch = {
+  id: number;
+  letter: string;
+  name: string;
+  subtitle: string;
+  match: string;
+  description: string;
+  tags: string[];
+  company: string;
+  stack: string;
+  icp: string;
+  budget: string;
+};
 
-const FAQS = [
+const problems = [
   {
-    q: "Why are buyers free?",
-    a: "Mutualy keeps buyers free to maximize demand and ensures vendors meet real, high-intent demand.",
+    icon: "🚫",
+    title: "Cold outreach is broken",
+    text: "Buyers ignore irrelevant pitches. Vendors waste hours chasing people who were never a fit in the first place.",
   },
   {
-    q: "What counts as a qualified intro?",
-    a: "A qualified intro is a buyer-vendor match with alignment across category, timing, company size, and buying context.",
+    icon: "🕒",
+    title: "Sellers waste effort",
+    text: "Revenue teams spend too much time prospecting instead of speaking with buyers who actually have intent.",
   },
   {
-    q: "How is this different from outbound?",
-    a: "Mutualy is built around mutual fit instead of cold outreach, which helps teams spend less time prospecting and more time in relevant conversations.",
+    icon: "🎯",
+    title: "Buyers can’t find fit",
+    text: "Procurement and revenue leaders are overwhelmed by noise and struggle to discover the right vendors quickly.",
   },
   {
-    q: "Can vendors start small?",
-    a: "Yes. Vendors can apply for launch access first, then grow into larger plans as Mutualy proves itself as a pipeline channel.",
+    icon: "🤝",
+    title: "Mutualy fixes this",
+    text: "Permission-based introductions mean every conversation starts with mutual interest and verified fit. No spam. No waste.",
+    highlight: true,
+  },
+] as const;
+
+const steps = [
+  {
+    step: "Step 01",
+    icon: UserPlus,
+    title: "Buyers create a profile",
+    text: "Share your tech stack, priorities, budget, timeline, and goals in under five minutes.",
+  },
+  {
+    step: "Step 02",
+    icon: Target,
+    title: "Vendors define their ICP",
+    text: "Describe your ideal customer profile, strongest use cases, and buying signals you serve best.",
+  },
+  {
+    step: "Step 03",
+    icon: Zap,
+    title: "Mutualy matches on fit",
+    text: "We score compatibility across the dimensions that matter most so introductions start with real alignment.",
+  },
+  {
+    step: "Step 04",
+    icon: Shield,
+    title: "Buyers accept or decline",
+    text: "Every introduction is permission-based. Buyers choose whether they want to engage before anything moves forward.",
+  },
+  {
+    step: "Step 05",
+    icon: ArrowRight,
+    title: "Aligned conversations begin",
+    text: "Only relevant matches move forward, creating better meetings and better outcomes for both sides.",
+  },
+] as const;
+
+const matchSignals = [
+  {
+    icon: Search,
+    title: "Tech Stack",
+    text: "Current tools, integrations, and infrastructure",
+  },
+  {
+    icon: Target,
+    title: "Business Priorities",
+    text: "Strategic goals and active pain points",
+  },
+  {
+    icon: Wallet,
+    title: "Budget & Authority",
+    text: "Spending range and decision-making level",
+  },
+  {
+    icon: CalendarDays,
+    title: "Timeline",
+    text: "Buying urgency and evaluation window",
+  },
+  {
+    icon: Shield,
+    title: "Company Profile",
+    text: "Size, industry, growth stage, and geography",
+  },
+  {
+    icon: Zap,
+    title: "ICP Fit Score",
+    text: "Vendor-to-buyer ideal profile alignment",
+  },
+] as const;
+
+const buyerBullets = [
+  "Discover relevant solutions without inbox spam",
+  "Stay in full control of every introduction",
+  "Save hours filtering irrelevant vendor pitches",
+] as const;
+
+const vendorBullets = [
+  "Meet prospects already open to your solution",
+  "Stop wasting effort on cold outbound",
+  "Access higher-quality buyer opportunities",
+] as const;
+
+const stats = [
+  { value: "87%", label: "Match acceptance rate" },
+  { value: "3.2x", label: "Faster to first meeting" },
+  { value: "12hrs", label: "Average time saved" },
+  { value: "94%", label: "Intro quality score" },
+] as const;
+
+const faqs = [
+  {
+    q: "How do matches work?",
+    a: "Mutualy compares buyer priorities and vendor fit across category, budget, company profile, timing, and intent signals before surfacing an introduction.",
+  },
+  {
+    q: "Who controls introductions?",
+    a: "Buyers do. Every introduction is permission-based, so vendors only get access when a buyer chooses to engage.",
+  },
+  {
+    q: "Is it free for buyers?",
+    a: "Yes. Buyers join and discover relevant vendors for free.",
+  },
+  {
+    q: "When do vendors pay?",
+    a: "Mutualy can support premium vendor access and curated plans, but pricing is currently available through early access conversations.",
+  },
+  {
+    q: "What information is shared?",
+    a: "Only the information needed to evaluate fit and make a qualified introduction is used in the matching process.",
+  },
+  {
+    q: "How is Mutualy different from lead databases or intent tools?",
+    a: "Lead databases provide names. Mutualy is designed to create permission-based introductions built on actual fit and buyer openness.",
+  },
+] as const;
+
+const logos = ["Acme Corp", "NovaTech", "Synapse", "CloudBase", "Vertex AI", "Dataflow"] as const;
+
+const demoMatches: DemoMatch[] = [
+  {
+    id: 1,
+    letter: "C",
+    name: "CloudSync Pro",
+    subtitle: "Data Integration Platform",
+    match: "94%",
+    description:
+      "Enterprise-grade data pipeline orchestration with real-time sync across 200+ connectors.",
+    tags: ["API-first", "SOC 2 Certified", "Enterprise Ready"],
+    company: "Series B · 120 employees",
+    stack: "Snowflake, AWS",
+    icp: "Mid-market SaaS",
+    budget: "Within range",
+  },
+  {
+    id: 2,
+    letter: "V",
+    name: "VelocityAI",
+    subtitle: "Revenue Intelligence",
+    match: "91%",
+    description:
+      "Pipeline forecasting and seller guidance built for fast-growing GTM teams with lean RevOps functions.",
+    tags: ["Forecasting", "RevOps", "AI Insights"],
+    company: "Series C · 280 employees",
+    stack: "Salesforce, Gong",
+    icp: "B2B SaaS",
+    budget: "Strong fit",
+  },
+  {
+    id: 3,
+    letter: "S",
+    name: "SignalStack",
+    subtitle: "Buying Signal Platform",
+    match: "88%",
+    description:
+      "Surface account-level signals and trigger relevant workflows without adding outbound noise.",
+    tags: ["Signals", "Automation", "Intent"],
+    company: "Growth stage · 85 employees",
+    stack: "HubSpot, Segment",
+    icp: "Modern revenue teams",
+    budget: "Within range",
+  },
+  {
+    id: 4,
+    letter: "P",
+    name: "ProcurePilot",
+    subtitle: "Vendor Evaluation Workspace",
+    match: "86%",
+    description:
+      "Collaborative vendor review workflows for procurement teams managing multi-stakeholder decisions.",
+    tags: ["Procurement", "Workflow", "Collaboration"],
+    company: "Enterprise · 1,200 employees",
+    stack: "Okta, Slack",
+    icp: "Procurement leaders",
+    budget: "Needs approval",
   },
 ];
 
-const NAV_LINKS = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
-];
+export default function MutualyEliteLanding() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [faqOpen, setFaqOpen] = useState<number | null>(0);
+  const [matchIndex, setMatchIndex] = useState(0);
+  const [acceptedCount, setAcceptedCount] = useState(0);
 
-const STATS = [
-  { value: "2-sided", label: "fit logic" },
-  { value: "94%", label: "fit confidence" },
-  { value: "Free", label: "for buyers" },
-];
-
-export default function Home() {
-  const [viewportWidth, setViewportWidth] = useState(1280);
-  const [showWaitlistModal, setShowWaitlistModal] = useState(true);
-
-  useEffect(() => {
-    const update = () => setViewportWidth(window.innerWidth);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  const isMobile = viewportWidth < 768;
-  const isTablet = viewportWidth >= 768 && viewportWidth < 1100;
-
-  const layout = useMemo(
-    () => ({
-      pagePadding: isMobile ? "0 18px" : "0 28px",
-      heroGrid: {
-        display: "grid",
-        gridTemplateColumns: isMobile || isTablet ? "1fr" : "1.08fr 0.92fr",
-        gap: isMobile ? 22 : 28,
-        padding: isMobile ? "34px 0 24px" : "56px 0 36px",
-      } as React.CSSProperties,
-      dualGrid: {
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-        gap: 16,
-      } as React.CSSProperties,
-      tripleGrid: {
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr 1fr" : "repeat(3, 1fr)",
-        gap: 14,
-      } as React.CSSProperties,
-      pricingGrid: {
-        display: "grid",
-        gridTemplateColumns: isMobile || isTablet ? "1fr" : "0.88fr 1.12fr",
-        gap: 16,
-        marginTop: 18,
-      } as React.CSSProperties,
-      navRow: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexDirection: isMobile ? "column" : "row",
-        gap: isMobile ? 14 : 20,
-        padding: isMobile ? "18px 0" : "20px 0",
-      } as React.CSSProperties,
-      buttonRow: {
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        gap: 12,
-        alignItems: isMobile ? "stretch" : "center",
-      } as React.CSSProperties,
-    }),
-    [isMobile, isTablet]
+  const headerLinks = useMemo(
+    () => [
+      { label: "How it works", href: "#how-it-works" },
+      { label: "For Buyers", href: "#buyers" },
+      { label: "For Vendors", href: "#vendors" },
+      { label: "FAQ", href: "#faq" },
+    ],
+    []
   );
 
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background:
-          "radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 30%), radial-gradient(circle at 82% 18%, rgba(34,197,94,0.08), transparent 20%), radial-gradient(circle at bottom, rgba(168,85,247,0.12), transparent 30%), #0a0f1d",
-        color: "white",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      {showWaitlistModal ? (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(5,10,20,0.72)",
-            backdropFilter: "blur(10px)",
-            zIndex: 999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: 560,
-              border: "1px solid rgba(255,255,255,0.1)",
-              background:
-                "linear-gradient(135deg, rgba(34,211,238,0.12), rgba(10,15,29,0.96), rgba(167,139,250,0.12))",
-              borderRadius: 28,
-              padding: isMobile ? 24 : 30,
-              boxShadow: "0 25px 80px rgba(0,0,0,0.38)",
-              position: "relative",
-            }}
-          >
-            <button
-              onClick={() => setShowWaitlistModal(false)}
-              style={{
-                position: "absolute",
-                top: 14,
-                right: 14,
-                width: 38,
-                height: 38,
-                borderRadius: 999,
-                border: "1px solid rgba(255,255,255,0.1)",
-                background: "rgba(255,255,255,0.04)",
-                color: "white",
-                cursor: "pointer",
-                fontSize: 18,
-              }}
-              aria-label="Close waitlist popup"
-            >
-              ×
-            </button>
+  const currentMatch = demoMatches[matchIndex];
 
-            <div style={eyebrow}>Early access</div>
-            <h2
-              style={{
-                fontSize: isMobile ? 30 : 40,
-                lineHeight: 1.08,
-                letterSpacing: -1.1,
-                margin: "16px 0 12px",
-                maxWidth: 440,
-              }}
+  const handleMatchAction = (action: "accept" | "decline") => {
+    if (action === "accept") {
+      setAcceptedCount((prev) => prev + 1);
+    }
+    setMatchIndex((prev) => (prev + 1) % demoMatches.length);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#eef1f7] text-[#0f1730] font-sans">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#04112b] backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-6">
+          <a href="#top" className="flex items-center gap-3 text-white">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#4166ff] to-[#34d3c5] text-[22px] font-extrabold tracking-[-0.05em] shadow-[0_10px_30px_rgba(52,211,197,0.18)]">
+              M
+            </span>
+            <span className="text-[28px] font-extrabold tracking-[-0.03em] md:text-[34px]">Mutualy</span>
+          </a>
+
+          <nav className="hidden items-center gap-8 md:flex">
+            {headerLinks.map((item) => (
+              <a key={item.label} href={item.href} className="text-sm font-medium text-white/75 transition hover:text-white">
+                {item.label}
+              </a>
+            ))}
+            <a
+              href="https://form.typeform.com/to/Vx8Qdbfu"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-2xl bg-white px-4 py-2.5 text-sm font-semibold text-[#121a32] transition hover:bg-white/90"
             >
-              We’re not fully launched yet.
-              <span
-                style={{
-                  display: "block",
-                  background:
-                    "linear-gradient(90deg, #7dd3fc 0%, #38bdf8 48%, #a78bfa 100%)",
-                  WebkitBackgroundClip: "text",
-                  color: "transparent",
-                }}
+              Join waitlist
+            </a>
+          </nav>
+
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            className="rounded-2xl p-2.5 text-white md:hidden"
+            aria-label="Toggle menu"
+          >
+            <Menu size={34} strokeWidth={2.3} />
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="border-t border-white/10 bg-[linear-gradient(180deg,#04112b,#06163a)] px-5 py-6 md:hidden">
+            <div className="mx-auto max-w-6xl">
+              <div className="flex items-center gap-3 text-white">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#4166ff] to-[#34d3c5] text-[20px] font-extrabold tracking-[-0.05em] shadow-[0_10px_30px_rgba(52,211,197,0.18)]">
+                  M
+                </span>
+                <span className="text-[22px] font-extrabold">Mutualy</span>
+              </div>
+              <p className="mt-4 max-w-sm text-[15px] leading-8 text-white/45">
+                Permission-based B2B matchmaking. Better conversations, better outcomes.
+              </p>
+
+              <div className="mt-8 space-y-8">
+                <div>
+                  <div className="mb-4 text-[14px] font-semibold text-white">Product</div>
+                  <div className="space-y-5 text-[15px] text-white/45">
+                    {headerLinks.map((item) => (
+                      <a key={item.label} href={item.href} className="block" onClick={() => setMenuOpen(false)}>
+                        {item.label}
+                      </a>
+                    ))}
+                    <a href="#pricing-coming" className="block" onClick={() => setMenuOpen(false)}>
+                      Pricing
+                    </a>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-4 text-[14px] font-semibold text-white">Connect</div>
+                  <div className="space-y-5 text-[15px] text-white/45">
+                    <a href="https://form.typeform.com/to/oLtDvuLX" target="_blank" rel="noreferrer" className="block">
+                      Apply as Buyer
+                    </a>
+                    <a href="https://form.typeform.com/to/oYc6xZr0" target="_blank" rel="noreferrer" className="block">
+                      Apply as Vendor
+                    </a>
+                    <a href="https://form.typeform.com/to/Vx8Qdbfu" target="_blank" rel="noreferrer" className="block">
+                      Join Waitlist
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main id="top">
+        <section className="relative overflow-hidden bg-[#04112b] pb-14 pt-10 text-white md:pb-20 md:pt-14">
+          <div
+            className="absolute inset-0 opacity-[0.13]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 0)",
+              backgroundSize: "24px 24px",
+            }}
+          />
+          <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(64,112,255,0.24),transparent_60%)]" />
+
+          <div className="relative mx-auto max-w-6xl px-5 md:px-6">
+            <div className="inline-flex rounded-full border border-[#3e62ff]/25 bg-[#2445d8]/18 px-4 py-2 text-sm font-medium text-white/85 shadow-[0_0_0_1px_rgba(80,120,255,0.12)]">
+              <span className="mr-3 text-[#34d3c5]">●</span>
+              Now in early access
+            </div>
+
+            <div className="mt-10 grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+              <div>
+                <h1 className="max-w-4xl text-[56px] font-extrabold leading-[0.98] tracking-[-0.06em] text-white sm:text-[68px] md:text-[82px] lg:text-[92px]">
+                  B2B introductions buyers{" "}
+                  <span className="bg-gradient-to-r from-[#4166ff] via-[#3d8df7] to-[#34d3c5] bg-clip-text text-transparent">
+                    actually want
+                  </span>
+                </h1>
+                <p className="mt-8 max-w-3xl text-[18px] leading-9 text-white/52 md:text-[20px]">
+                  Mutualy replaces cold outreach with permission-based matchmaking. Buyers set their priorities. Vendors match on fit. Only relevant conversations happen.
+                </p>
+
+                <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+                  <a
+                    href="https://form.typeform.com/to/Vx8Qdbfu"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-[22px] bg-gradient-to-r from-[#4166ff] via-[#3b91f6] to-[#34d3c5] px-7 py-5 text-[18px] font-semibold text-white shadow-[0_18px_50px_rgba(41,106,255,0.26)]"
+                  >
+                    Join Mutualy
+                    <ArrowRight className="ml-3" size={22} />
+                  </a>
+                  <a
+                    href="#how-it-works"
+                    className="inline-flex items-center justify-center rounded-[22px] bg-white/90 px-7 py-5 text-[18px] font-semibold text-[#18203a]"
+                  >
+                    See how it works
+                  </a>
+                </div>
+
+                <div className="mt-10 grid grid-cols-3 gap-4 text-white/60">
+                  <div className="flex items-start gap-2 text-[16px] leading-7">
+                    <span className="text-[#34d3c5]">✓</span>
+                    <span>Free for buyers</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-[16px] leading-7">
+                    <span className="text-[#34d3c5]">✓</span>
+                    <span>No cold outreach</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-[16px] leading-7">
+                    <span className="text-[#34d3c5]">✓</span>
+                    <span>Permission-based</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.28)]">
+                <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="text-[18px] font-semibold">Your Matches</div>
+                    <div className="text-[16px] text-white/55">3 new</div>
+                  </div>
+
+                  <div className="mt-6 space-y-4">
+                    {[
+                      {
+                        name: "CloudSync Pro",
+                        subtitle: "Data Integration",
+                        match: "94%",
+                        badge: "New",
+                        chips: ["API-first", "SOC 2", "Enterprise"],
+                      },
+                      {
+                        name: "VelocityAI",
+                        subtitle: "Revenue Intelligence",
+                        match: "89%",
+                        badge: "Strong",
+                        chips: ["Forecasting", "RevOps", "Growth"],
+                      },
+                    ].map((item) => (
+                      <div key={item.name} className="rounded-[24px] border border-white/10 bg-white/5 p-5">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-start gap-4">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-gradient-to-br from-[#4166ff] to-[#7b4df1] text-xl font-bold text-white">
+                              {item.name.charAt(0)}
+                            </div>
+                            <div>
+                              <div className="text-[18px] font-semibold">{item.name}</div>
+                              <div className="text-[15px] text-white/45">{item.subtitle}</div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[22px] font-bold text-[#39b2f0]">{item.match}</div>
+                            <div className="mt-2 inline-flex rounded-full border border-[#2fd7c1]/30 bg-[#2fd7c1]/10 px-3 py-1 text-xs font-semibold text-[#34d3c5]">
+                              {item.badge}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {item.chips.map((chip) => (
+                            <div key={chip} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[13px] text-white/65">
+                              {chip}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+          <SectionHeader
+            eyebrow="The Problem"
+            title="B2B outreach is broken for everyone"
+            subtitle="Buyers are drowning in irrelevant pitches. Sellers are burning budget on cold leads. There has to be a better way."
+            dark={false}
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {problems.map((item) => (
+              <div
+                key={item.title}
+                className={`rounded-[30px] border p-7 md:p-8 ${
+                  item.highlight
+                    ? "border-[#bfd0ff] bg-[#eef3ff]"
+                    : "border-[#d9deeb] bg-white shadow-[0_14px_40px_rgba(15,23,48,0.06)]"
+                }`}
               >
-                Join the waitlist.
-              </span>
-            </h2>
-            <p style={{ ...mutedText, marginTop: 0, maxWidth: 470 }}>
-              Mutualy is opening access in phases. Join the waitlist to get launch updates, early access news, and priority entry as new categories go live.
+                <div className={`flex h-16 w-16 items-center justify-center rounded-[20px] text-[28px] ${item.highlight ? "bg-[#dcf7f2]" : "bg-[#f4f5fa]"}`}>
+                  {item.icon}
+                </div>
+                <h3 className="mt-8 text-[26px] font-bold tracking-[-0.03em] text-[#0f1730]">{item.title}</h3>
+                <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-4xl px-5 py-12 md:px-6 md:py-16">
+          <div className="text-center">
+            <div className="text-sm font-semibold tracking-widest text-[#4166ff] uppercase">Try it yourself</div>
+            <h2 className="mt-4 text-3xl font-extrabold text-[#0f1730] md:text-5xl">See how matching feels</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-[#6b7285]">
+              Prospects can click through real-looking vendor matches on the page. Accept the ones that fit, decline the rest.
             </p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: isMobile ? "column" : "row",
-                gap: 12,
-                marginTop: 22,
-              }}
-            >
+          </div>
+
+          <div className="mt-10">
+            <div className="mb-4 flex justify-between text-sm text-gray-500">
+              <span>
+                {matchIndex + 1} of {demoMatches.length} matches
+              </span>
+              <span>{acceptedCount} accepted</span>
+            </div>
+
+            <div className="relative mx-auto max-w-3xl">
+              <div className="pointer-events-none absolute inset-0 -z-10 translate-y-4 scale-[0.97] rounded-[30px] border border-[#d9deeb] bg-[#eef1f7] opacity-70" />
+              <div className="pointer-events-none absolute inset-0 -z-20 translate-y-8 scale-[0.94] rounded-[30px] border border-[#d9deeb] bg-[#e8ebf3] opacity-50" />
+
+              <div
+                key={currentMatch.id}
+                className="relative overflow-hidden rounded-[30px] border border-[#d9deeb] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,48,0.12)] transition-all duration-300"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex min-w-0 items-center gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#4166ff] to-[#7b4df1] text-2xl font-bold text-white">
+                      {currentMatch.letter}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-xl font-semibold text-[#11182d]">{currentMatch.name}</div>
+                      <div className="truncate text-base text-gray-500">{currentMatch.subtitle}</div>
+                    </div>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <div className="text-3xl font-bold text-[#34d3c5]">{currentMatch.match}</div>
+                    <div className="text-xs tracking-[0.18em] text-gray-400">MATCH</div>
+                  </div>
+                </div>
+
+                <p className="mt-5 text-lg leading-8 text-gray-600">{currentMatch.description}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {currentMatch.tags.map((tag) => (
+                    <span key={tag} className="rounded-full border border-[#d7dcf4] bg-[#f7f8fd] px-3 py-1.5 text-xs text-[#4b5fd6]">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-6 grid grid-cols-1 gap-4 border-t border-[#e5e7ef] pt-6 text-sm text-gray-600 sm:grid-cols-2">
+                  <div>
+                    <span className="font-semibold text-[#7b8193]">Company</span>
+                    <div className="text-lg text-[#11182d]">{currentMatch.company}</div>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#7b8193]">Stack Fit</span>
+                    <div className="text-lg text-[#11182d]">{currentMatch.stack}</div>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#7b8193]">ICP Match</span>
+                    <div className="text-lg text-[#11182d]">{currentMatch.icp}</div>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#7b8193]">Budget Fit</span>
+                    <div className="text-lg text-[#11182d]">{currentMatch.budget}</div>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 gap-0 overflow-hidden rounded-2xl border border-[#e5e7ef]">
+                  <button
+                    onClick={() => handleMatchAction("decline")}
+                    className="border-r border-[#e5e7ef] bg-white py-4 text-lg font-semibold text-rose-500 transition hover:bg-rose-50"
+                  >
+                    Decline
+                  </button>
+                  <button
+                    onClick={() => handleMatchAction("accept")}
+                    className="bg-white py-4 text-lg font-semibold text-emerald-500 transition hover:bg-emerald-50"
+                  >
+                    Accept Intro
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="how-it-works" className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+          <SectionHeader
+            eyebrow="How it works"
+            title="From profile to conversation in five steps"
+            subtitle="A simple, transparent process that respects everyone’s time."
+            dark={false}
+          />
+          <div className="mt-10 space-y-6">
+            {steps.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.step} className="flex items-start gap-5 rounded-[30px] border border-[#d9deeb] bg-white p-6 shadow-[0_14px_40px_rgba(15,23,48,0.05)] md:p-7">
+                  <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[28px] bg-gradient-to-br from-[#4166ff] to-[#7c4df0] text-white shadow-[0_14px_34px_rgba(65,102,255,0.22)]">
+                    <Icon size={34} />
+                  </div>
+                  <div className="pt-1">
+                    <div className="text-[18px] font-semibold text-[#4166ff]">{item.step}</div>
+                    <h3 className="mt-2 text-[30px] font-extrabold tracking-[-0.04em] text-[#0f1730]">{item.title}</h3>
+                    <p className="mt-4 text-[18px] leading-9 text-[#6b7285]">{item.text}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+          <SectionHeader
+            eyebrow="Platform"
+            title="Built for both sides of the table"
+            subtitle="Whether you're buying or selling, Mutualy ensures every interaction is worth your time."
+            dark={false}
+          />
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <SideCard
+              eyebrow="For Buyers"
+              title="Discover, don't get spammed"
+              text="Create a profile, set your priorities, and only hear from vendors that match your needs. You're always in control."
+              bullets={buyerBullets}
+              cta="Join as a Buyer — It's Free"
+              ctaHref="https://form.typeform.com/to/oLtDvuLX"
+              accent="buyer"
+            />
+            <SideCard
+              eyebrow="For Vendors"
+              title="Sell to people who want to buy"
+              text="Define your ideal customer profile. Mutualy matches you with buyers who fit — and who’ve opted in to hear from you."
+              bullets={vendorBullets}
+              cta="Join as a Vendor"
+              ctaHref="https://form.typeform.com/to/oYc6xZr0"
+              accent="vendor"
+            />
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-[#04112b] py-14 text-white md:py-20">
+          <div
+            className="absolute inset-0 opacity-[0.12]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.34) 1px, transparent 0)",
+              backgroundSize: "24px 24px",
+            }}
+          />
+          <div className="mx-auto max-w-6xl px-5 md:px-6">
+            <SectionHeader
+              eyebrow="Matching Engine"
+              title="Intelligent matching across every dimension"
+              subtitle="Mutualy scores compatibility on the signals that matter — so every introduction has real potential."
+              dark
+            />
+
+            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {matchSignals.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.title} className="rounded-[30px] border border-white/10 bg-white/[0.04] p-7 shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-[22px] bg-gradient-to-br from-[#4166ff] to-[#7c4df0] text-white">
+                      <Icon size={30} />
+                    </div>
+                    <h3 className="mt-8 text-[24px] font-bold tracking-[-0.03em] text-white">{item.title}</h3>
+                    <p className="mt-4 text-[18px] leading-9 text-white/46">{item.text}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 rounded-[30px] border border-[#2fd7c1]/25 bg-[linear-gradient(180deg,rgba(20,53,86,0.64),rgba(10,26,56,0.6))] p-8 text-center shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+              <h3 className="text-[28px] font-extrabold tracking-[-0.04em] text-white md:text-[36px]">Permission-Based Pipeline™</h3>
+              <p className="mx-auto mt-5 max-w-4xl text-[19px] leading-9 text-white/52">
+                Every introduction on Mutualy requires buyer consent. Vendors never reach out cold — buyers choose to engage. This creates a pipeline built on mutual interest, not interruption.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing-coming" className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+          <SectionHeader
+            eyebrow="Pricing"
+            title="Simple pricing for vendors. Free for buyers."
+            subtitle="Buyers always join free. Vendor plans are rolling out through curated early access."
+            dark={false}
+          />
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <PricingCard
+              title="Early Access"
+              price="Coming soon"
+              subtitle="For vendors exploring Mutualy first"
+              bullets={[
+                "Priority waitlist access",
+                "Early category entry",
+                "Founding vendor consideration",
+                "Curated onboarding",
+              ]}
+              cta="Join waitlist"
+              href="https://form.typeform.com/to/Vx8Qdbfu"
+            />
+            <PricingCard
+              title="Premium"
+              price="Custom"
+              subtitle="For vendors ready for priority matching and insights"
+              bullets={[
+                "Priority matching",
+                "Advanced ICP insights",
+                "Higher visibility",
+                "Dedicated support",
+              ]}
+              cta="Request early access"
+              href="https://form.typeform.com/to/oYc6xZr0"
+              featured
+              badge="Most Popular"
+            />
+            <PricingCard
+              title="Enterprise"
+              price="Custom"
+              subtitle="Tailored for larger teams with workflow needs"
+              bullets={[
+                "Everything in Premium",
+                "Custom matching rules",
+                "Workflow guidance",
+                "Priority support",
+              ]}
+              cta="Talk to us"
+              href="https://form.typeform.com/to/oYc6xZr0"
+            />
+          </div>
+
+          <p className="mt-8 text-center text-[18px] leading-8 text-[#6f7688]">
+            🎉 Buyers join Mutualy completely free. No credit card required.
+          </p>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+          <SectionHeader
+            eyebrow="Built for"
+            title="Built for modern revenue teams and procurement leaders"
+            subtitle="Designed for how great B2B buying and selling should actually work — even before the first cold email gets sent."
+            dark={false}
+          />
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
+              <div className="text-[18px] font-semibold uppercase tracking-[0.18em] text-[#4166ff]">Why it matters</div>
+              <h3 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-[-0.04em] text-[#11182d] md:text-[42px]">
+                Better conversations start before the intro
+              </h3>
+              <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">
+                Mutualy is designed to help buyers discover better-fit vendors and help vendors reach people who actually want to hear from them.
+              </p>
+            </div>
+
+            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
+              <div className="text-[18px] font-semibold uppercase tracking-[0.18em] text-[#34d3c5]">Early access focus</div>
+              <h3 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-[-0.04em] text-[#11182d] md:text-[42px]">
+                Built with quality, control, and fit in mind
+              </h3>
+              <p className="mt-5 text-[18px] leading-9 text-[#6b7285]">
+                Instead of showing fake traction, we’re focused on building the right experience first: qualified intros, buyer control, and a cleaner path to real pipeline.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 grid grid-cols-2 gap-5">
+            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
+              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Buyer-approved</div>
+              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">Every introduction is permission-based</div>
+            </div>
+            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
+              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Fit-first</div>
+              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">Matches are based on relevance, not volume</div>
+            </div>
+            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
+              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Less noise</div>
+              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">No spray-and-pray outbound motion</div>
+            </div>
+            <div className="rounded-[28px] border border-[#d9deeb] bg-white p-7 text-center shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-8">
+              <div className="text-[24px] font-extrabold tracking-[-0.04em] text-[#5a4cf0] md:text-[30px]">Higher quality</div>
+              <div className="mt-3 text-[18px] leading-8 text-[#6b7285]">Built for stronger, more qualified conversations</div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-5xl px-5 py-10 text-center md:px-6 md:py-12">
+          <div className="rounded-[32px] border border-[#d9deeb] bg-white p-8 shadow-[0_14px_40px_rgba(15,23,48,0.04)] md:p-10">
+            <div className="text-[16px] font-semibold uppercase tracking-[0.2em] text-[#4166ff]">
+              Pre-launch note
+            </div>
+            <div className="mt-5 text-[28px] font-extrabold leading-[1.25] tracking-[-0.03em] text-[#11182d] md:text-[40px]">
+              Mutualy is currently in early access.
+            </div>
+            <p className="mx-auto mt-5 max-w-3xl text-[18px] leading-9 text-[#6b7285] md:text-[20px]">
+              We are focused on building the right product foundation before publishing customer logos, testimonials, or performance claims. Early-access members help shape the experience.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="https://form.typeform.com/to/Vx8Qdbfu"
                 target="_blank"
                 rel="noreferrer"
-                style={{ ...buttonPrimary, textAlign: "center" }}
+                className="inline-flex items-center justify-center rounded-[22px] bg-gradient-to-r from-[#4166ff] via-[#3b91f6] to-[#34d3c5] px-7 py-5 text-[18px] font-semibold text-white shadow-[0_18px_50px_rgba(41,106,255,0.20)]"
+              >
+                Join early access
+                <ArrowRight className="ml-3" size={22} />
+              </a>
+              <a
+                href="https://form.typeform.com/to/oLtDvuLX"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-[22px] bg-[#f4f6fb] px-7 py-5 text-[18px] font-semibold text-[#11182d]"
+              >
+                Apply as a buyer
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
+          <SectionHeader
+            eyebrow="FAQ"
+            title="Frequently asked questions"
+            subtitle="Answers to the most common questions about the platform."
+            dark={false}
+          />
+
+          <div className="mt-10 space-y-5">
+            {faqs.map((item, index) => {
+              const isOpen = faqOpen === index;
+              return (
+                <button
+                  key={item.q}
+                  onClick={() => setFaqOpen(isOpen ? null : index)}
+                  className="w-full rounded-[28px] border border-[#d9deeb] bg-white px-6 py-7 text-left shadow-[0_12px_34px_rgba(15,23,48,0.04)] transition"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="text-[24px] font-bold tracking-[-0.03em] text-[#11182d] md:text-[28px]">{item.q}</div>
+                    <ChevronDown className={`shrink-0 transition ${isOpen ? "rotate-180" : ""}`} size={28} />
+                  </div>
+                  {isOpen && <div className="mt-5 max-w-4xl text-[18px] leading-9 text-[#6b7285]">{item.a}</div>}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-[#04112b] py-16 text-white md:py-20">
+          <div
+            className="absolute inset-0 opacity-[0.12]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.34) 1px, transparent 0)",
+              backgroundSize: "24px 24px",
+            }}
+          />
+          <div className="absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,rgba(64,112,255,0.22),transparent_60%)]" />
+
+          <div className="relative mx-auto max-w-5xl px-5 text-center md:px-6">
+            <h2 className="text-[48px] font-extrabold leading-[1.02] tracking-[-0.06em] md:text-[76px]">
+              Stop spraying and praying.{" "}
+              <span className="bg-gradient-to-r from-[#4166ff] via-[#3b91f6] to-[#34d3c5] bg-clip-text text-transparent">
+                Start matching.
+              </span>
+            </h2>
+            <p className="mx-auto mt-7 max-w-4xl text-[19px] leading-9 text-white/50 md:text-[22px]">
+              Join the platform where B2B conversations start with mutual interest, verified fit, and real buying intent.
+            </p>
+            <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href="https://form.typeform.com/to/oLtDvuLX"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-[22px] bg-gradient-to-r from-[#4166ff] via-[#3b91f6] to-[#34d3c5] px-8 py-5 text-[18px] font-semibold text-white shadow-[0_18px_50px_rgba(41,106,255,0.26)]"
+              >
+                Join as a Buyer — Free
+              </a>
+              <a
+                href="https://form.typeform.com/to/Vx8Qdbfu"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-[22px] border border-white/10 bg-white/5 px-8 py-5 text-[18px] font-semibold text-white"
               >
                 Join waitlist
               </a>
-              <button
-                onClick={() => setShowWaitlistModal(false)}
-                style={{ ...buttonSecondary, textAlign: "center", cursor: "pointer" }}
-              >
-                Continue to site
-              </button>
             </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/8 bg-[#020617] px-5 py-10 text-center md:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-[28px] font-extrabold tracking-[-0.03em] text-white">Mutualy</div>
+          <p className="mt-3 text-[16px] leading-8 text-white/42">Permission-based B2B matchmaking.</p>
+          <div className="mt-6 flex justify-center gap-6 text-[15px] text-white/55">
+            <a href="#faq">FAQ</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
           </div>
         </div>
-      ) : null}
-
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: layout.pagePadding }}>
-        <header style={{ ...layout.navRow, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <Logo />
-            <div>
-              <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: -0.4 }}>Mutualy</div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.54)" }}>
-                Premium B2B matchmaking
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: isMobile ? 14 : 20,
-              flexDirection: isMobile ? "column" : "row",
-              width: isMobile ? "100%" : "auto",
-            }}
-          >
-            <nav
-              style={{
-                display: "flex",
-                gap: 16,
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
-              {NAV_LINKS.map((item) => (
-                <a key={item.label} href={item.href} style={navLink}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <button
-              onClick={() => setShowWaitlistModal(true)}
-              style={{
-                ...buttonGhost,
-                width: isMobile ? "100%" : "auto",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-            >
-              Join waitlist
-            </button>
-          </div>
-        </header>
-
-        <section style={layout.heroGrid}>
-          <div>
-            <div style={eyebrow}>Built for mutual buyer-seller fit</div>
-            <h1
-              style={{
-                fontSize: isMobile ? 38 : isTablet ? 48 : 62,
-                lineHeight: isMobile ? 1.08 : 1.02,
-                letterSpacing: isMobile ? -1 : -2,
-                margin: "16px 0 14px",
-                maxWidth: 720,
-              }}
-            >
-              Replace cold outbound with
-              <span
-                style={{
-                  display: "block",
-                  background:
-                    "linear-gradient(90deg, #7dd3fc 0%, #38bdf8 48%, #a78bfa 100%)",
-                  WebkitBackgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                mutual-fit introductions.
-              </span>
-            </h1>
-            <p
-              style={{
-                maxWidth: 700,
-                fontSize: isMobile ? 17 : 19,
-                lineHeight: 1.72,
-                color: "rgba(255,255,255,0.72)",
-                margin: 0,
-              }}
-            >
-              Mutualy helps buyers discover relevant vendors and gives vendors premium access to better-fit opportunities — based on category, priorities, timing, budget, and intent.
-            </p>
-
-            <div style={{ ...layout.buttonRow, marginTop: 22 }}>
-              <a href="#vendors" style={{ ...buttonPrimary, textAlign: "center" }}>
-                Apply as a Vendor
-              </a>
-              <a href="#buyers" style={{ ...buttonSecondary, textAlign: "center" }}>
-                Apply as a Buyer
-              </a>
-            </div>
-
-            <div
-              style={{
-                marginTop: 24,
-                display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "repeat(3, minmax(0,1fr))",
-                gap: 12,
-              }}
-            >
-              {STATS.map((item) => (
-                <div key={item.label} style={metricCard}>
-                  <div style={{ fontSize: 24, fontWeight: 700 }}>{item.value}</div>
-                  <div style={{ marginTop: 4, color: "rgba(255,255,255,0.5)", fontSize: 12, textTransform: "uppercase", letterSpacing: 1.1 }}>
-                    {item.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div style={heroShell}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: 10 }}>
-              <div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.52)" }}>Live matching signal</div>
-                <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4 }}>Mutual fit engine</div>
-              </div>
-              <div style={successBadge}>94% fit confidence</div>
-            </div>
-
-            <div style={{ marginTop: 14, display: "grid", gap: 12 }}>
-              <MatchCard
-                buyer="Series B SaaS buyer"
-                seller="Revenue enablement platform"
-                reason="Strong alignment across tech stack, initiative, and timing"
-                isMobile={isMobile}
-              />
-              <MatchCard
-                buyer="Enterprise security leader"
-                seller="Compliance automation vendor"
-                reason="Buying window open with matching requirements and team size"
-                isMobile={isMobile}
-              />
-              <div style={signalPanel}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-                  <span style={miniLabel}>Platform signals</span>
-                  <span style={{ color: "rgba(255,255,255,0.48)", fontSize: 12 }}>3 of 3 aligned</span>
-                </div>
-                <ProgressRow label="Category fit" width="96%" />
-                <ProgressRow label="Timeline fit" width="89%" />
-                <ProgressRow label="Budget fit" width="91%" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <Section id="how-it-works" title="How it works" subtitle="A cleaner path from profile to qualified conversation." compact>
-          <div style={layout.tripleGrid}>
-            <StepCard
-              step="01"
-              title="Create your profile"
-              text="Buyers and vendors submit structured details around category, timing, size, goals, and priorities."
-            />
-            <StepCard
-              step="02"
-              title="Mutualy scores fit"
-              text="Mutualy evaluates alignment signals and surfaces higher-quality matches instead of noisy lists."
-            />
-            <StepCard
-              step="03"
-              title="Get introduced"
-              text="When both sides make sense, Mutualy opens the door to a more relevant conversation."
-            />
-          </div>
-        </Section>
-
-        <Section id="pricing" title="Pricing" subtitle="Premium access for vendors. Free access for buyers." compact>
-          <div style={layout.pricingGrid}>
-            <div style={buyerCard}>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexDirection: isMobile ? "column" : "row" }}>
-                <div>
-                  <div style={{ color: "#a7f3d0", fontWeight: 700, fontSize: 14 }}>Buyer access</div>
-                  <div style={{ fontSize: 38, fontWeight: 700, marginTop: 8 }}>Free</div>
-                </div>
-                <div style={successBadge}>Always free</div>
-              </div>
-              <p style={mutedText}>
-                Buyers should never pay to discover relevant vendors. Free access keeps demand strong and the network high-intent.
-              </p>
-              <div style={listWrap}>
-                <div>• Share your priorities, timing, and buying context</div>
-                <div>• Get surfaced to vendors only when there is mutual fit</div>
-                <div>• Submit reviews to improve trust and quality over time</div>
-              </div>
-            </div>
-
-            <div style={layout.dualGrid}>
-              <PricingCard
-                title="Vendor Select"
-                price="$499"
-                cadence="per month"
-                badge="Launch tier"
-                description="For vendors who want premium access to mutual-fit opportunities without jumping into a large program first."
-                features={[
-                  "Premium vendor profile",
-                  "Curated buyer matches",
-                  "Core fit signals and category alignment",
-                  "Up to 5 introductions per month",
-                ]}
-              />
-              <PricingCard
-                title="Vendor Elite"
-                price="$1,500"
-                cadence="per month"
-                badge="Most premium"
-                featured
-                description="For teams ready to treat Mutualy like a strategic growth channel with priority visibility and deeper signal access."
-                features={[
-                  "Everything in Vendor Select",
-                  "Priority placement in premium categories",
-                  "Advanced fit and intent visibility",
-                  "Up to 20 introductions per month",
-                ]}
-              />
-            </div>
-          </div>
-
-          <div style={{ ...subtlePanel, marginTop: 14 }}>
-            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr auto", gap: 14, alignItems: "center" }}>
-              <div>
-                <div style={{ fontSize: 20, fontWeight: 700 }}>Optional success-based pricing</div>
-                <p style={{ ...mutedText, marginTop: 8 }}>
-                  For launch partners, Mutualy can layer in curated intro fees for especially high-value opportunities.
-                </p>
-              </div>
-              <div style={cyanPanelCompact}>
-                <div style={{ fontSize: 12, textTransform: "uppercase", color: "#cffafe", letterSpacing: 1.2 }}>Curated intro fee</div>
-                <div style={{ fontSize: 30, fontWeight: 700, marginTop: 4 }}>$150</div>
-              </div>
-            </div>
-          </div>
-        </Section>
-
-        <FormSection
-          id="buyers"
-          badge="For Buyers"
-          title="Find vendors that actually fit your goals."
-          text="Tell Mutualy what your team is evaluating, what tools you already use, and what matters most. Mutualy uses that signal to surface relevant vendors with real fit."
-          bullets={[
-            "Share your stack, priorities, and timeline",
-            "Highlight urgency, initiative, and budget context",
-            "Get matched only when fit and buyer intent align",
-          ]}
-          cta="Apply as a Buyer"
-          href="https://form.typeform.com/to/oLtDvuLX"
-          visual={<BuyerVisual isMobile={isMobile} />}
-          isMobile={isMobile}
-          isTablet={isTablet}
-        />
-
-        <FormSection
-          id="vendors"
-          badge="For Vendors"
-          reverse
-          title="Meet buyers with stronger fit signals and better timing."
-          text="Create a vendor profile with your ICP, strongest use cases, and ideal buyer signals so Mutualy can route you into higher-quality opportunities instead of more outbound noise."
-          bullets={[
-            "Define your best-fit buyers and company sizes",
-            "Show the outcomes and problems you solve best",
-            "Get surfaced when buyer intent and qualification align",
-          ]}
-          cta="Apply as a Vendor"
-          href="https://form.typeform.com/to/oYc6xZr0"
-          visual={<VendorVisual isMobile={isMobile} />}
-          isMobile={isMobile}
-          isTablet={isTablet}
-        />
-
-        <Section id="faq" title="FAQ" subtitle="Everything you need to know before joining." compact>
-          <div style={layout.dualGrid}>
-            {FAQS.map((item) => (
-              <FaqCard key={item.q} q={item.q} a={item.a} />
-            ))}
-          </div>
-        </Section>
-
-        <section style={{ padding: "4px 0 22px" }}>
-          <div style={layout.tripleGrid}>
-            <QuoteCard
-              quote="We replaced cold outbound with qualified intros that were actually worth taking."
-              who="VP Revenue, SaaS"
-            />
-            <QuoteCard
-              quote="The fit signal is the difference. Conversations start closer to relevance."
-              who="Head of RevOps"
-            />
-            <QuoteCard
-              quote="It feels more like a premium network than another lead source."
-              who="CRO, Cybersecurity"
-            />
-          </div>
-        </section>
-
-        <section style={{ padding: "4px 0 22px" }}>
-          <div style={ctaPanel}>
-            <div>
-              <div style={{ fontSize: isMobile ? 28 : 34, fontWeight: 700 }}>Start with mutual fit.</div>
-              <p style={{ ...mutedText, maxWidth: 560, marginTop: 8 }}>
-                Apply as a buyer, apply as a vendor, or join the waitlist while Mutualy expands access.
-              </p>
-            </div>
-            <div style={{ ...layout.buttonRow, justifyContent: isMobile ? "stretch" : "flex-end" }}>
-              <a href="#vendors" style={{ ...buttonPrimary, textAlign: "center" }}>
-                Apply as a Vendor
-              </a>
-              <button
-                onClick={() => setShowWaitlistModal(true)}
-                style={{ ...buttonSecondary, textAlign: "center", cursor: "pointer" }}
-              >
-                Join waitlist
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <FormSection
-          id="reviews"
-          badge="Reviews"
-          title="Share feedback on your Mutualy experience."
-          text="Buyers can submit reviews and feedback so Mutualy can improve match quality and strengthen vendor trust over time."
-          bullets={[
-            "Leave product and matching feedback",
-            "Help improve future recommendations",
-            "Strengthen marketplace trust with verified reviews",
-          ]}
-          cta="Open review form"
-          href="https://form.typeform.com/to/XvlS7XLZ"
-          isMobile={isMobile}
-          isTablet={isTablet}
-        />
-
-        <footer
-          style={{
-            padding: "20px 0 34px",
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: isMobile ? "flex-start" : "center",
-            flexDirection: isMobile ? "column" : "row",
-            gap: 12,
-            color: "rgba(255,255,255,0.55)",
-            fontSize: 14,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Logo small />
-            <span>© {new Date().getFullYear()} Mutualy</span>
-          </div>
-          <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-            {NAV_LINKS.map((item) => (
-              <a key={item.label} href={item.href} style={footerLink}>
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </footer>
-      </div>
-    </main>
+      </footer>
+    </div>
   );
 }
 
-function Section({
-  id,
+function SectionHeader({
+  eyebrow,
   title,
   subtitle,
-  compact,
-  children,
+  dark,
 }: {
-  id: string;
+  eyebrow: string;
   title: string;
   subtitle: string;
-  compact?: boolean;
-  children: React.ReactNode;
+  dark?: boolean;
 }) {
   return (
-    <section id={id} style={{ padding: compact ? "4px 0 22px" : "6px 0 24px" }}>
-      <div style={sectionPanel}>
-        <div style={eyebrow}>{title}</div>
-        {subtitle ? (
-          <h2 style={{ fontSize: 34, margin: "14px 0 0", fontWeight: 700, letterSpacing: -1.2 }}>
-            {subtitle}
-          </h2>
-        ) : null}
-        <div style={{ marginTop: subtitle ? 16 : 0 }}>{children}</div>
+    <div className="text-center">
+      <div className={`text-[16px] font-semibold uppercase tracking-[0.2em] ${dark ? "text-[#34d3c5]" : "text-[#4166ff]"}`}>
+        {eyebrow}
       </div>
-    </section>
+      <h2 className={`mx-auto mt-4 max-w-5xl text-[46px] font-extrabold leading-[1.05] tracking-[-0.06em] md:text-[76px] ${dark ? "text-white" : "text-[#0f1730]"}`}>
+        {title}
+      </h2>
+      <p className={`mx-auto mt-6 max-w-4xl text-[19px] leading-9 md:text-[22px] ${dark ? "text-white/48" : "text-[#6b7285]"}`}>
+        {subtitle}
+      </p>
+    </div>
   );
 }
 
-function FormSection({
-  id,
-  badge,
+function SideCard({
+  eyebrow,
   title,
   text,
   bullets,
   cta,
-  href,
-  reverse,
-  visual,
-  isMobile,
-  isTablet,
+  ctaHref,
+  accent,
 }: {
-  id: string;
-  badge: string;
+  eyebrow: string;
   title: string;
   text: string;
-  bullets: string[];
+  bullets: readonly string[];
   cta: string;
-  href: string;
-  reverse?: boolean;
-  visual?: React.ReactNode;
-  isMobile: boolean;
-  isTablet: boolean;
+  ctaHref: string;
+  accent: "buyer" | "vendor";
 }) {
-  const gridStyle: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: isMobile || isTablet ? "1fr" : reverse ? "1fr 1.02fr" : "1.02fr 1fr",
-    gap: 18,
-    alignItems: "stretch",
-  };
+  const buyer = accent === "buyer";
+  return (
+    <div className={`rounded-[32px] border p-8 md:p-9 ${buyer ? "border-[#bcebe3] bg-[#effaf8]" : "border-[#cdd0fb] bg-[#f1f2ff]"}`}>
+      <div className={`text-[18px] font-semibold uppercase tracking-[0.18em] ${buyer ? "text-[#34d3c5]" : "text-[#4166ff]"}`}>
+        {eyebrow}
+      </div>
+      <h3 className="mt-5 text-[46px] font-extrabold leading-[1.1] tracking-[-0.05em] text-[#11182d]">{title}</h3>
+      <p className="mt-6 text-[19px] leading-9 text-[#6b7285]">{text}</p>
 
-  const textCol = (
-    <div style={sectionCol}>
-      <div style={eyebrow}>{badge}</div>
-      <h3 style={{ fontSize: isMobile ? 28 : 34, margin: "14px 0 0", fontWeight: 700, letterSpacing: -1 }}>
-        {title}
-      </h3>
-      <p style={{ ...mutedText, maxWidth: 560 }}>{text}</p>
-      <div style={listWrap}>
-        {bullets.map((item) => (
-          <div key={item}>• {item}</div>
+      <div className="mt-7 space-y-5">
+        {bullets.map((bullet) => (
+          <div key={bullet} className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]">
+            <span className="mt-1 text-[#34d3c5]">✓</span>
+            <span>{bullet}</span>
+          </div>
         ))}
       </div>
-    </div>
-  );
-
-  const formColNode = (
-    <div style={formCol}>
-      {visual}
-      <FormPanel cta={cta} href={href} isMobile={isMobile} />
-    </div>
-  );
-
-  return (
-    <section id={id} style={{ padding: "4px 0 22px" }}>
-      <div style={sectionPanel}>
-        <div style={gridStyle}>
-          {!reverse || isMobile || isTablet ? (
-            <>
-              {textCol}
-              {formColNode}
-            </>
-          ) : (
-            <>
-              {formColNode}
-              {textCol}
-            </>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FormPanel({ cta, href, isMobile }: { cta: string; href: string; isMobile: boolean }) {
-  return (
-    <div style={formPanel}>
-      <div style={formPanelTopRow}>
-        <div style={formPanelIconWrap}>↗</div>
-        <div style={formPanelMiniLabel}>Direct form access</div>
-      </div>
-
-      <div
-        style={{
-          fontSize: isMobile ? 22 : 24,
-          fontWeight: 700,
-          letterSpacing: -0.6,
-          marginTop: 14,
-        }}
-      >
-        Complete your application in Typeform
-      </div>
-
-      <p
-        style={{
-          ...mutedText,
-          maxWidth: 420,
-          margin: "10px auto 0",
-          fontSize: 15,
-          lineHeight: 1.65,
-          color: "rgba(255,255,255,0.62)",
-        }}
-      >
-        We open the application in a separate tab for a faster, cleaner submission experience.
-      </p>
 
       <a
-        href={href}
+        href={ctaHref}
         target="_blank"
         rel="noreferrer"
-        style={{
-          ...buttonPrimary,
-          display: "inline-block",
-          marginTop: 18,
-          width: isMobile ? "100%" : "auto",
-          minWidth: isMobile ? "100%" : 220,
-          textAlign: "center",
-          boxSizing: "border-box",
-        }}
+        className={`mt-9 inline-flex w-full items-center justify-center rounded-[22px] px-8 py-5 text-[18px] font-semibold ${
+          buyer
+            ? "bg-gradient-to-r from-[#34d3c5] to-[#26b8eb] text-white"
+            : "bg-gradient-to-r from-[#4166ff] to-[#7b4df1] text-white"
+        }`}
       >
         {cta}
+        <ArrowRight className="ml-3" size={22} />
       </a>
-    </div>
-  );
-}
-
-function BuyerVisual({ isMobile }: { isMobile: boolean }) {
-  return (
-    <div style={visualBox}>
-      <div style={{ ...visualHeader, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
-        <div>
-          <div style={miniLabel}>Buyer snapshot</div>
-          <div style={{ fontSize: 20, fontWeight: 700 }}>Qualified demand profile</div>
-        </div>
-        <div style={successBadge}>Intent verified</div>
-      </div>
-      <div style={{ ...twoCol, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr" }}>
-        <MiniCard title="Priorities" text="Security, RevOps, AI workflow" />
-        <MiniCard title="Budget band" text="$25k–$75k annual" />
-      </div>
-      <div style={signalPanel}>
-        <ProgressRow label="Tech stack" width="92%" />
-        <ProgressRow label="Timeline" width="89%" />
-        <ProgressRow label="Use case match" width="96%" />
-      </div>
-    </div>
-  );
-}
-
-function VendorVisual({ isMobile }: { isMobile: boolean }) {
-  return (
-    <div style={visualBox}>
-      <div style={{ ...visualHeader, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
-        <div>
-          <div style={miniLabel}>Vendor snapshot</div>
-          <div style={{ fontSize: 20, fontWeight: 700 }}>Go-to-market profile</div>
-        </div>
-        <div style={cyanBadge}>ICP aligned</div>
-      </div>
-      <div style={{ ...twoCol, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr" }}>
-        <MiniCard title="Best-fit segment" text="Mid-market to enterprise" />
-        <MiniCard title="Use-case strength" text="Compliance, enablement, ROI" />
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)", gap: 10 }}>
-        <StatCard stat="52" label="buyer signals" />
-        <StatCard stat="18" label="open categories" />
-        <StatCard stat="91%" label="fit accuracy" />
-      </div>
-    </div>
-  );
-}
-
-function ProgressRow({ label, width }: { label: string; width: string }) {
-  return (
-    <div style={{ marginTop: 12 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 6 }}>
-        <span>{label}</span>
-        <span>{width}</span>
-      </div>
-      <div style={{ height: 8, borderRadius: 999, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
-        <div style={{ width, height: 8, borderRadius: 999, background: "linear-gradient(90deg, #7dd3fc, #38bdf8, #a78bfa)" }} />
-      </div>
     </div>
   );
 }
@@ -782,413 +973,60 @@ function ProgressRow({ label, width }: { label: string; width: string }) {
 function PricingCard({
   title,
   price,
-  cadence,
-  badge,
-  description,
-  features,
+  subtitle,
+  bullets,
+  cta,
+  href,
   featured,
+  badge,
 }: {
   title: string;
   price: string;
-  cadence: string;
-  badge: string;
-  description: string;
-  features: string[];
+  subtitle: string;
+  bullets: string[];
+  cta: string;
+  href: string;
   featured?: boolean;
+  badge?: string;
 }) {
   return (
-    <div style={{ ...pricingCardBase, ...(featured ? pricingCardFeatured : {}) }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
-        <div>
-          <div style={{ fontSize: 22, fontWeight: 700 }}>{title}</div>
-          <div style={{ ...mutedText, fontSize: 14 }}>{description}</div>
+    <div
+      className={`relative rounded-[32px] border bg-white p-8 shadow-[0_16px_42px_rgba(15,23,48,0.05)] ${
+        featured ? "border-[#cdd0fb]" : "border-[#d9deeb]"
+      }`}
+    >
+      {badge && (
+        <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#4166ff] to-[#7b4df1] px-6 py-2 text-[14px] font-semibold text-white">
+          {badge}
         </div>
-        <div style={featured ? cyanBadge : neutralBadge}>{badge}</div>
-      </div>
-      <div style={{ marginTop: 18, display: "flex", alignItems: "end", gap: 8, flexWrap: "wrap" }}>
-        <div style={{ fontSize: 40, fontWeight: 700 }}>{price}</div>
-        <div style={{ color: "rgba(255,255,255,0.5)", marginBottom: 7 }}>{cadence}</div>
-      </div>
-      <div style={{ ...listWrap, marginTop: 14 }}>
-        {features.map((feature) => (
-          <div key={feature}>• {feature}</div>
+      )}
+
+      <div className="text-[28px] font-bold tracking-[-0.03em] text-[#11182d]">{title}</div>
+      <div className="mt-8 text-[58px] font-extrabold tracking-[-0.06em] text-[#11182d]">{price}</div>
+      <p className="mt-4 text-[18px] leading-9 text-[#6b7285]">{subtitle}</p>
+
+      <div className="mt-8 space-y-4">
+        {bullets.map((bullet) => (
+          <div key={bullet} className="flex items-start gap-3 text-[18px] leading-8 text-[#11182d]">
+            <span className="mt-1 text-[#34d3c5]">✓</span>
+            <span>{bullet}</span>
+          </div>
         ))}
       </div>
+
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className={`mt-9 inline-flex w-full items-center justify-center rounded-[22px] px-8 py-5 text-[18px] font-semibold ${
+          featured
+            ? "bg-gradient-to-r from-[#4166ff] to-[#7b4df1] text-white"
+            : "bg-[#f0f1f6] text-[#11182d]"
+        }`}
+      >
+        {cta}
+        <ArrowRight className="ml-3" size={22} />
+      </a>
     </div>
   );
 }
-
-function MatchCard({ buyer, seller, reason, isMobile }: { buyer: string; seller: string; reason: string; isMobile: boolean }) {
-  return (
-    <div style={matchCard}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 14, flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
-        <div>
-          <div style={miniLabel}>Buyer</div>
-          <div style={{ marginTop: 5, fontWeight: 600 }}>{buyer}</div>
-        </div>
-        {!isMobile ? <div style={{ color: "#67e8f9" }}>×</div> : null}
-        <div style={{ textAlign: isMobile ? "left" : "right" }}>
-          <div style={miniLabel}>Vendor</div>
-          <div style={{ marginTop: 5, fontWeight: 600 }}>{seller}</div>
-        </div>
-      </div>
-      <div style={matchReason}>{reason}</div>
-    </div>
-  );
-}
-
-function InfoCard({ title, text }: { title: string; text: string }) {
-  return (
-    <div style={compactCard}>
-      <div style={{ fontWeight: 700 }}>{title}</div>
-      <div style={{ marginTop: 8, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{text}</div>
-    </div>
-  );
-}
-
-function QuoteCard({ quote, who }: { quote: string; who: string }) {
-  return (
-    <div style={compactCard}>
-      <div style={{ lineHeight: 1.7, color: "rgba(255,255,255,0.82)" }}>“{quote}”</div>
-      <div style={{ marginTop: 12, fontSize: 12, color: "rgba(255,255,255,0.44)", textTransform: "uppercase", letterSpacing: 1.2 }}>{who}</div>
-    </div>
-  );
-}
-
-function FaqCard({ q, a }: { q: string; a: string }) {
-  return (
-    <div style={compactCard}>
-      <div style={{ fontSize: 18, fontWeight: 700 }}>{q}</div>
-      <div style={{ marginTop: 10, lineHeight: 1.7, color: "rgba(255,255,255,0.64)" }}>{a}</div>
-    </div>
-  );
-}
-
-function StepCard({ step, title, text }: { step: string; title: string; text: string }) {
-  return (
-    <div style={compactCard}>
-      <div style={{ fontSize: 12, color: "#a5f3fc", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.2 }}>{step}</div>
-      <div style={{ fontSize: 21, fontWeight: 700, marginTop: 10 }}>{title}</div>
-      <div style={{ marginTop: 10, lineHeight: 1.7, color: "rgba(255,255,255,0.64)" }}>{text}</div>
-    </div>
-  );
-}
-
-function MiniCard({ title, text }: { title: string; text: string }) {
-  return (
-    <div style={compactCard}>
-      <div style={{ fontWeight: 700 }}>{title}</div>
-      <div style={{ marginTop: 6, fontSize: 14, color: "rgba(255,255,255,0.54)" }}>{text}</div>
-    </div>
-  );
-}
-
-function StatCard({ stat, label }: { stat: string; label: string }) {
-  return (
-    <div style={{ ...compactCard, textAlign: "center" }}>
-      <div style={{ fontSize: 26, fontWeight: 700 }}>{stat}</div>
-      <div style={{ marginTop: 4, fontSize: 11, color: "rgba(255,255,255,0.42)", textTransform: "uppercase", letterSpacing: 1.1 }}>{label}</div>
-    </div>
-  );
-}
-
-function Logo({ small }: { small?: boolean }) {
-  const size = small ? 30 : 42;
-  return (
-    <svg viewBox="0 0 120 120" width={size} height={size} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="mutualyGrad" x1="16" y1="14" x2="102" y2="106" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#7DD3FC" />
-          <stop offset="0.5" stopColor="#22D3EE" />
-          <stop offset="1" stopColor="#A78BFA" />
-        </linearGradient>
-      </defs>
-      <rect x="8" y="8" width="104" height="104" rx="30" fill="url(#mutualyGrad)" />
-      <path d="M32 77V43h9.5l18.5 19 18.5-19H88v34h-10V58.4L60 76 42 58.4V77H32Z" fill="#0A0F1D" />
-      <circle cx="60" cy="60" r="49" stroke="rgba(255,255,255,0.32)" />
-    </svg>
-  );
-}
-
-const sectionPanel: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.035)",
-  borderRadius: 28,
-  padding: 24,
-};
-
-const compactCard: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.035)",
-  borderRadius: 22,
-  padding: 18,
-};
-
-const metricCard: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.03)",
-  borderRadius: 18,
-  padding: 16,
-};
-
-const heroShell: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.04)",
-  borderRadius: 28,
-  padding: 18,
-  boxShadow: "0 20px 50px rgba(0,0,0,0.22)",
-};
-
-const matchCard: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(10,15,29,0.74)",
-  borderRadius: 18,
-  padding: 14,
-};
-
-const matchReason: React.CSSProperties = {
-  marginTop: 12,
-  borderRadius: 14,
-  background: "rgba(255,255,255,0.05)",
-  padding: "10px 12px",
-  color: "rgba(255,255,255,0.66)",
-  lineHeight: 1.6,
-  fontSize: 14,
-};
-
-const signalPanel: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  borderRadius: 18,
-  padding: 14,
-  background: "rgba(10,15,29,0.72)",
-};
-
-const pricingCardBase: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.04)",
-  borderRadius: 24,
-  padding: 22,
-};
-
-const pricingCardFeatured: React.CSSProperties = {
-  border: "1px solid rgba(34,211,238,0.25)",
-  background: "linear-gradient(135deg, rgba(34,211,238,0.10), rgba(10,15,29,0.95), rgba(167,139,250,0.10))",
-};
-
-const buyerCard: React.CSSProperties = {
-  border: "1px solid rgba(52,211,153,0.18)",
-  background: "rgba(52,211,153,0.06)",
-  borderRadius: 24,
-  padding: 22,
-};
-
-const subtlePanel: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.03)",
-  borderRadius: 22,
-  padding: 18,
-};
-
-const cyanPanelCompact: React.CSSProperties = {
-  border: "1px solid rgba(34,211,238,0.2)",
-  background: "rgba(34,211,238,0.1)",
-  borderRadius: 18,
-  padding: 16,
-  textAlign: "center",
-};
-
-const formPanel: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  borderRadius: 24,
-  background: "rgba(10,15,29,0.72)",
-  padding: 24,
-  textAlign: "center",
-};
-
-const visualBox: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.08)",
-  borderRadius: 24,
-  padding: 18,
-  background: "linear-gradient(135deg, rgba(56,189,248,0.08), rgba(10,15,29,0.95), rgba(167,139,250,0.08))",
-};
-
-const visualHeader: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: 14,
-  marginBottom: 14,
-};
-
-const ctaPanel: React.CSSProperties = {
-  border: "1px solid rgba(34,211,238,0.2)",
-  background: "linear-gradient(135deg, rgba(34,211,238,0.10), rgba(10,15,29,0.95), rgba(167,139,250,0.10))",
-  borderRadius: 28,
-  padding: 24,
-  display: "grid",
-  gridTemplateColumns: "1fr",
-  gap: 18,
-};
-
-const buttonPrimary: React.CSSProperties = {
-  background: "white",
-  color: "black",
-  padding: "14px 20px",
-  borderRadius: 999,
-  textDecoration: "none",
-  fontWeight: 700,
-};
-
-const buttonSecondary: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.14)",
-  color: "white",
-  padding: "14px 20px",
-  borderRadius: 999,
-  textDecoration: "none",
-  fontWeight: 700,
-  background: "rgba(255,255,255,0.03)",
-};
-
-const buttonGhost: React.CSSProperties = {
-  border: "1px solid rgba(34,211,238,0.22)",
-  color: "#cffafe",
-  padding: "14px 20px",
-  borderRadius: 999,
-  textDecoration: "none",
-  fontWeight: 700,
-  background: "rgba(34,211,238,0.08)",
-};
-
-const eyebrow: React.CSSProperties = {
-  display: "inline-block",
-  border: "1px solid rgba(34,211,238,0.24)",
-  background: "rgba(34,211,238,0.08)",
-  color: "#cffafe",
-  borderRadius: 999,
-  padding: "7px 12px",
-  fontSize: 11,
-  fontWeight: 700,
-  textTransform: "uppercase",
-  letterSpacing: 1.4,
-};
-
-const successBadge: React.CSSProperties = {
-  border: "1px solid rgba(52,211,153,0.25)",
-  background: "rgba(52,211,153,0.1)",
-  color: "#bbf7d0",
-  borderRadius: 999,
-  padding: "7px 11px",
-  fontSize: 12,
-  fontWeight: 700,
-};
-
-const cyanBadge: React.CSSProperties = {
-  border: "1px solid rgba(34,211,238,0.25)",
-  background: "rgba(34,211,238,0.1)",
-  color: "#cffafe",
-  borderRadius: 999,
-  padding: "7px 11px",
-  fontSize: 12,
-  fontWeight: 700,
-};
-
-const neutralBadge: React.CSSProperties = {
-  border: "1px solid rgba(255,255,255,0.1)",
-  background: "rgba(255,255,255,0.04)",
-  color: "rgba(255,255,255,0.62)",
-  borderRadius: 999,
-  padding: "7px 11px",
-  fontSize: 12,
-  fontWeight: 700,
-};
-
-const mutedText: React.CSSProperties = {
-  color: "rgba(255,255,255,0.68)",
-  lineHeight: 1.7,
-  marginTop: 12,
-};
-
-const listWrap: React.CSSProperties = {
-  display: "grid",
-  gap: 10,
-  marginTop: 16,
-  color: "rgba(255,255,255,0.66)",
-  lineHeight: 1.6,
-};
-
-const sectionCol: React.CSSProperties = {
-  padding: 2,
-};
-
-const formCol: React.CSSProperties = {
-  display: "grid",
-  gap: 14,
-};
-
-const twoCol: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  gap: 10,
-};
-
-const miniLabel: React.CSSProperties = {
-  fontSize: 11,
-  color: "rgba(165,243,252,0.75)",
-  textTransform: "uppercase",
-  letterSpacing: 1.5,
-};
-
-const iconWrap: React.CSSProperties = {
-  width: 58,
-  height: 58,
-  borderRadius: 18,
-  border: "1px solid rgba(34,211,238,0.25)",
-  background: "rgba(34,211,238,0.1)",
-  color: "#cffafe",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  margin: "0 auto 16px",
-  fontSize: 24,
-  fontWeight: 700,
-};
-
-const navLink: React.CSSProperties = {
-  color: "rgba(255,255,255,0.66)",
-  textDecoration: "none",
-  fontSize: 14,
-};
-
-const footerLink: React.CSSProperties = {
-  color: "rgba(255,255,255,0.68)",
-  textDecoration: "none",
-  fontSize: 14,
-};const formPanelTopRow: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: 10,
-};
-
-const formPanelIconWrap: React.CSSProperties = {
-  width: 56,
-  height: 56,
-  borderRadius: 18,
-  border: "1px solid rgba(34,211,238,0.22)",
-  background: "rgba(34,211,238,0.08)",
-  color: "#cffafe",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontSize: 22,
-  fontWeight: 700,
-  margin: "0 auto",
-};
-
-const formPanelMiniLabel: React.CSSProperties = {
-  fontSize: 11,
-  color: "rgba(165,243,252,0.75)",
-  textTransform: "uppercase",
-  letterSpacing: 1.4,
-};
-
