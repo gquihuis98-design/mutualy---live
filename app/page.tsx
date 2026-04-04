@@ -33,6 +33,13 @@ type HeaderLink = {
   href: string;
 };
 
+type SectionHeaderProps = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  dark?: boolean;
+};
+
 type SideCardProps = {
   id?: string;
   eyebrow: string;
@@ -53,13 +60,6 @@ type PricingCardProps = {
   href: string;
   featured?: boolean;
   badge?: string;
-};
-
-type SectionHeaderProps = {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  dark?: boolean;
 };
 
 const problems = [
