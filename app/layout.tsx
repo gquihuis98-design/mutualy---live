@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Mutualy",
-  description: "B2B matchmaking platform",
+  description: "Permission-based B2B matchmaking",
 };
 
 export default function RootLayout({
@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, background: "#0a0f1d" }}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
